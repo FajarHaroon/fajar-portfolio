@@ -10,7 +10,7 @@
     --text-secondary: #e6daf8; /* Soft lilac/lavender text */
     --text-muted: #af9dbd; /* Muted lavender text */
     
-    --accent-purple: hsl(272, 78%, 56%); /* High contrast glowing royal purple */
+    --accent-purple: hsl(272, 100%, 85%); /* High contrast glowing royal purple */
     --accent-purple-glow: rgba(162, 70, 240, 0.35);
     --accent-indigo: hsl(260, 80%, 65%);
     --accent-cyan: hsl(272, 100%, 82%); /* Light lavender spotlight accent */
