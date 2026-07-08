@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fajar Haroon | Creative UI/UX & Graphic Design Portfolio</title>
+    <meta name="description" content="Personal design portal of Fajar Haroon, UI/UX Designer, Graphic Designer, and Software Engineer. Explore interactive case studies, design playgrounds, and creative works.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- Liquid Custom Cursor Follower -->
+    <div class="custom-cursor-dot" id="cursorDot"></div>
+    <div class="custom-cursor-glow" id="cursorGlow"></div>
+
+    <!-- Ambient Grid & Glow Backdrops -->
+    <div class="vertical-grid-overlay"></div>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Smiley Logo with Trail duplicate effect on hover -->
+            <a href="#" class="logo-smiley" id="logoSmiley">
+                <span class="logo-trail"></span>
+                <span class="logo-trail"></span>
+                <span class="logo-trail"></span>
+                <div class="smiley-face">
+                    <div class="smiley-eyes"></div>
+                    <div class="smiley-mouth"></div>
+                </div>
+            </a>
+
+            <!-- Central Nav Links -->
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">HOME</a>
+                <a href="#playground" class="nav-link" data-section="playground">PLAYGROUND</a>
+                <a href="#work" class="nav-link" data-section="work">WORK</a>
+                <a href="#experience" class="nav-link" data-section="experience">ABOUT</a>
+                <a href="#contact" class="nav-link" data-section="contact">CONTACT</a>
+            </nav>
+
+            <!-- Play Pitch Button & Audio Control -->
+            <div class="header-actions">
+                <button class="sfx-toggle-btn" id="sfxToggle" title="Toggle SFX Player">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button class="pitch-btn" id="pitchBtn">
+                    <span>PLAY 120-SECONDS PITCH</span>
+                    <div class="play-icon-circle">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero-section" id="home">
+            <!-- Overlapping Massive Typography -->
+            <div class="hero-text-container">
+                <h1 class="hero-word word-uiux">UI/UX</h1>
+                <h1 class="hero-word word-brand">BRAND</h1>
+                <h1 class="hero-word word-design">DESIGN</h1>
+            </div>
+
+            <!-- Floating Interactive Visual Cards -->
+            <div class="hero-cards-container" id="heroCardsContainer">
+                
+                <!-- Voxel Chameleon Mascot Card -->
+                <div class="floating-card card-chameleon" data-depth="0.15">
+                    <div class="card-inner">
+                        <img src="assets/chameleon.jpg" alt="Voxel Chameleon Mascot">
+                        <div class="card-tag">CREATIVE MASCOT</div>
+                    </div>
+                </div>
+
+                <!-- App Interface Card -->
+                <div class="floating-card card-mobile-ui" data-depth="0.25">
+                    <div class="card-inner">
+                        <img src="assets/mobile_ui.jpg" alt="Mobile UI App Mockup">
+                        <div class="card-tag">HEALTH APP UI</div>
+                    </div>
+                </div>
+
+                <!-- Polaroid Architecture Card -->
+                <div class="floating-card card-polaroid" data-depth="0.08">
+                    <div class="card-inner">
+                        <img src="assets/polaroid.jpg" alt="Polaroid Design Vibe">
+                        <div class="card-caption">Aesthetic Vibe // Rawalpindi</div>
+                    </div>
+                </div>
+
+                <!-- Merch Showcase Card -->
+                <div class="floating-card card-totebag" data-depth="0.2">
+                    <div class="card-inner">
+                        <img src="assets/totebag.jpg" alt="Tote Bag Branding Mockup">
+                        <div class="card-tag">BRAND MERCH</div>
+                    </div>
+                </div>
+
+                <!-- Monotone Portrait Card -->
+                <div class="floating-card card-portrait" data-depth="0.18">
+                    <div class="card-inner portrait-inner">
+                        <img src="assets/fajar_portrait.png" alt="Fajar Haroon Portrait">
+                    </div>
+                </div>
+
+                <!-- Interactive Profile Vitals Card -->
+                <div class="floating-card card-vitals text-card" data-depth="0.12">
+                    <div class="vitals-header">
+                        <div class="dot-blink"></div>
+                        <span>PORTAL UPLINK ACTIVE</span>
+                    </div>
+                    <div class="vitals-profile-row">
+                        <div class="vitals-avatar-wrapper">
+                            <img src="assets/fajar.png" alt="Fajar Haroon" class="vitals-avatar">
+                        </div>
+                        <div class="vitals-profile-text">
+                            <h3>Fajar Haroon</h3>
+                            <p class="kickass-tagline">Creative UI/UX Designer & Developer</p>
+                        </div>
+                    </div>
+                    <div class="vitals-footer">
+                        <span>SYS_STATUS // ONLINE</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-scroll-indicator">
+                <span>SCROLL TO ENTER PORTAL</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE PLAYGROUND (Bento Grid) -->
+        <section class="playground-section" id="playground">
+            <div class="section-header">
+                <span class="section-subtitle">INTERACTIVE HUB</span>
+                <h2 class="section-title">THE DESIGN PLAYGROUND</h2>
+                <p class="section-description">Interact with the widgets below to discover skills, redesign concepts, and hidden Easter eggs.</p>
+            </div>
+
+            <div class="playground-bento-grid">
+                
+                <!-- Bento Card 1: Before/After Redesign Slider -->
+                <div class="bento-card bento-slider-widget">
+                    <div class="bento-card-header">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Before & After Redesign</span>
+                    </div>
+                    <div class="before-after-container" id="beforeAfterSlider">
+                        <div class="before-image-layer">
+                            <div class="slider-label label-before">OLD SYSTEM</div>
+                        </div>
+                        <div class="after-image-layer" id="afterImageLayer">
+                            <div class="slider-label label-after">FAJAR'S REDESIGN</div>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="slider-input" id="sliderRange">
+                        <div class="slider-handle" id="sliderHandle">
+                            <i class="fa-solid fa-left-right"></i>
+                        </div>
+                    </div>
+                    <div class="bento-card-body">
+                        <h4>DevGate Health App Interface</h4>
+                        <p>Slide to compare the legacy tracking system against our sleek dark-mode dashboard overhaul.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Card 2: Canvas Scratch Card Award -->
+                <div class="bento-card bento-scratch-widget">
+                    <div class="bento-card-header">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Scratch to Reveal Award</span>
+                    </div>
+                    <div class="scratch-card-container">
+                        <canvas id="scratchCanvas" width="340" height="200"></canvas>
+                        <div class="scratch-reward-content">
+                            <div class="reward-icon"><i class="fa-solid fa-award"></i></div>
+                            <h4>IGNITE NGIRI Funded</h4>
+                            <p>National Technology Fund Awarded to Final Year Project (2023 - 2024)</p>
+                            <span class="reward-status">Verified Achievement ✓</span>
+                        </div>
+                    </div>
+                    <div class="bento-card-body">
+                        <h4>Academic Honors</h4>
+                        <p>Drag/scratch your cursor above to wipe away the silver coating and reveal the national funding award.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Card 3: Interactive Phone Screen App Simulator -->
+                <div class="bento-card bento-app-simulator">
+                    <div class="bento-card-header">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>Interactive Prototype Simulator</span>
+                    </div>
+                    <div class="phone-simulator-frame">
+                        <div class="phone-screen-container">
+                            <div class="phone-screen-image-wrapper">
+                                <img src="assets/mobile_ui.jpg" alt="Active Prototype Screen" id="phoneScreenImg">
+                            </div>
+                            <div class="phone-home-indicator"></div>
+                        </div>
+                        <div class="simulator-controls">
+                            <button class="sim-app-btn active" data-img="assets/mobile_ui.jpg" title="Health & Fitness App">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                                <span>Health</span>
+                            </button>
+                            <button class="sim-app-btn" data-img="assets/totebag.jpg" title="E-Banking App Concept">
+                                <i class="fa-solid fa-wallet"></i>
+                                <span>Banking</span>
+                            </button>
+                            <button class="sim-app-btn" data-img="assets/chameleon.jpg" title="Mascot Project">
+                                <i class="fa-solid fa-ghost"></i>
+                                <span>Mascot</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bento-card-body">
+                        <h4>Instant Visual Swapper</h4>
+                        <p>Tap the app icons to cycle through high-resolution mockups inside the mobile screen simulator.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Card 4: Magnetic Skill Cloud -->
+                <div class="bento-card bento-skills-cloud">
+                    <div class="bento-card-header">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                        <span>Magnetic Skill Fields</span>
+                    </div>
+                    <div class="skills-cloud-container" id="magneticContainer">
+                        <span class="magnetic-tag" style="--color: #0acf83;">Figma</span>
+                        <span class="magnetic-tag" style="--color: #f24e1e;">UI Design</span>
+                        <span class="magnetic-tag" style="--color: #a259ff;">UX Research</span>
+                        <span class="magnetic-tag" style="--color: #1abc9c;">Wireframing</span>
+                        <span class="magnetic-tag" style="--color: #f1c40f;">Prototyping</span>
+                        <span class="magnetic-tag" style="--color: #e74c3c;">Balsamiq</span>
+                        <span class="magnetic-tag" style="--color: #3498db;">Adobe PS</span>
+                        <span class="magnetic-tag" style="--color: #e67e22;">Adobe AI</span>
+                        <span class="magnetic-tag" style="--color: #9b59b6;">CapCut</span>
+                        <span class="magnetic-tag" style="--color: #2ecc71;">WordPress</span>
+                        <span class="magnetic-tag" style="--color: #34495e;">HTML/CSS</span>
+                        <span class="magnetic-tag" style="--color: #16a085;">Power BI</span>
+                    </div>
+                    <div class="bento-card-body">
+                        <h4>Tool & Skill Matrix</h4>
+                        <p>Hover your cursor near the badges; they will dynamically attract to your mouse pointer using magnetic math.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Card 5: Gravity Override Button -->
+                <div class="bento-card bento-physics-widget">
+                    <div class="bento-card-header">
+                        <i class="fa-solid fa-atom"></i>
+                        <span>Physics Sandbox</span>
+                    </div>
+                    <div class="physics-button-wrapper">
+                        <button class="physics-trigger-btn" id="physicsBtn">
+                            <i class="fa-solid fa-power-off"></i>
+                            <span>OVERRIDE GRAVITY</span>
+                        </button>
+                    </div>
+                    <div class="bento-card-body">
+                        <h4>Interactive Easter Egg</h4>
+                        <p>Triggering the gravity override creates a simulated physical disruption, wiggling elements on this screen.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WORK / PROJECT SHOWCASE -->
+        <section class="work-section" id="work">
+            <div class="section-header">
+                <span class="section-subtitle">CREATIVE ARCHIVE</span>
+                <h2 class="section-title">PORTFOLIO CASE STUDIES</h2>
+                
+                <!-- Category Filters -->
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">ALL ARCHIVE</button>
+                    <button class="filter-btn" data-filter="uiux">UI/UX DESIGN</button>
+                    <button class="filter-btn" data-filter="graphic">GRAPHIC DESIGN</button>
+                    <button class="filter-btn" data-filter="code">CODING & DEV</button>
+                </div>
+            </div>
+
+            <!-- Bento Project Grid -->
+            <div class="projects-grid" id="projectsGrid">
+                
+                <!-- Health & Fitness App (UI/UX) -->
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrapper">
+                        <img src="assets/mobile_ui.jpg" alt="Health & Fitness Dashboard">
+                        <div class="project-overlay">
+                            <span class="project-category">DevGate Consultancy</span>
+                            <h3>Health & Fitness App</h3>
+                            <p>Designed workout tracking, nutrition logging, and clean charts to enhance daily health monitoring.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E-Banking App (UI/UX) -->
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrapper">
+                        <img src="assets/mobile_ui.jpg" alt="E-Banking Mobile App Interface">
+                        <div class="project-overlay">
+                            <span class="project-category">DevGate Consultancy</span>
+                            <h3>E-Banking App Concept</h3>
+                            <p>Streamlined dashboard interfaces with high-contrast UI assets to enhance secure financial operations.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shikayat.pk (UI/UX / Web) -->
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrapper">
+                        <img src="assets/polaroid.jpg" alt="Shikayat.pk Website">
+                        <div class="project-overlay">
+                            <span class="project-category">InoTech Solution</span>
+                            <h3>Shikayat.pk Portal</h3>
+                            <p>Designed a user-centric complaints registration panel to support consumer-brand transparency.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Visuals GITEX AI (Graphic) -->
+                <div class="project-card" data-category="graphic">
+                    <div class="project-img-wrapper">
+                        <img src="assets/chameleon.jpg" alt="GITEX AI Expo Banner">
+                        <div class="project-overlay">
+                            <span class="project-category">Broomstick Creative, UAE</span>
+                            <h3>GITEX AI Kazakhstan Visuals</h3>
+                            <p>Created static visuals, expos banners, and branding prints maintaining strict corporate style sheets.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Automechanika Dubai (Graphic) -->
+                <div class="project-card" data-category="graphic">
+                    <div class="project-img-wrapper">
+                        <img src="assets/totebag.jpg" alt="Automechanika Dubai Event Visuals">
+                        <div class="project-overlay">
+                            <span class="project-category">Broomstick Creative, UAE</span>
+                            <h3>Automechanika Dubai Print Media</h3>
+                            <p>Designed custom print materials, social announcements, and brand guides for the event.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Child Vaccination Portal (UI/UX / Web) -->
+                <div class="project-card" data-category="uiux">
+                    <div class="project-img-wrapper">
+                        <img src="assets/polaroid.jpg" alt="Child Vaccination Dashboard">
+                        <div class="project-overlay">
+                            <span class="project-category">InoTech Solution</span>
+                            <h3>Vaccination Scheduler</h3>
+                            <p>Created an easy-to-use child health milestone calendar and tracking dashboard for parents.</p>
+                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E-Health Management System (Coding) -->
+                <div class="project-card" data-category="code">
+                    <div class="project-img-wrapper">
+                        <img src="assets/mobile_ui.jpg" alt="E-Health System Code Design">
+                        <div class="project-overlay">
+                            <span class="project-category">Personal Project</span>
+                            <h3>E-Health Management</h3>
+                            <p>Constructed a robust health administrative portal using semantically structured HTML and clean CSS.</p>
+                            <span class="project-link-badge">Inspect Repository <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- POS System using BI solution (Coding) -->
+                <div class="project-card" data-category="code">
+                    <div class="project-img-wrapper">
+                        <img src="assets/totebag.jpg" alt="POS System Dashboard">
+                        <div class="project-overlay">
+                            <span class="project-category">Personal Project</span>
+                            <h3>POS System & Power BI</h3>
+                            <p>Built a sales management database and connected it to Power BI for clean visual business intelligence.</p>
+                            <span class="project-link-badge">Inspect Repository <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EXPERIENCE / TIMELINE -->
+        <section class="experience-section" id="experience">
+            <div class="section-header">
+                <span class="section-subtitle">PROFESSIONAL TIMELINE</span>
+                <h2 class="section-title">WORK EXPERIENCE</h2>
+                <p class="section-description">Click on each experience card to expand and review my core responsibilities.</p>
+            </div>
+
+            <div class="timeline-container">
+                
+                <!-- Timeline item 1: Broomstick Creative -->
+                <div class="timeline-item" id="time1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-header">
+                            <span class="job-duration">Nov 2025 - Present</span>
+                            <span class="job-company">Broomstick Creative (UAE)</span>
+                        </div>
+                        <h3>Static Graphic Designer</h3>
+                        <p class="job-summary">Producing premium visual media for international expositions and maintain global brand cohesion.</p>
+                        <div class="job-details" id="detail-time1">
+                            <ul>
+                                <li>Design print media and static social graphics.</li>
+                                <li>Create non-animated visual assets and advertising layouts.</li>
+                                <li>Crafted event graphics for Automechanika Dubai and GITEX AI Kazakhstan.</li>
+                                <li>Collaborate across design layers to maintain strict brand standards.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline item 2: Vital Web Solution -->
+                <div class="timeline-item" id="time2">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-header">
+                            <span class="job-duration">Apr 2024 - Oct 2025</span>
+                            <span class="job-company">Vital Web Solution</span>
+                        </div>
+                        <h3>Graphic | UX/UI Designer</h3>
+                        <p class="job-summary">Led creative branding updates, carousel campaigns, and website interfaces for diverse clients.</p>
+                        <div class="job-details" id="detail-time2">
+                            <ul>
+                                <li>Designed engaging social media grids and multi-slide carousels.</li>
+                                <li>Created modern catalogues, brochures, and print layouts.</li>
+                                <li>Redesigned corporate website interfaces to improve UX.</li>
+                                <li>Collaborated closely with marketing teams to translate goals into designs.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline item 3: InoTech Solution -->
+                <div class="timeline-item" id="time3">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-header">
+                            <span class="job-duration">Dec 2023 - Mar 2024</span>
+                            <span class="job-company">InoTech Solution</span>
+                        </div>
+                        <h3>UI/UX Designer (Intern)</h3>
+                        <p class="job-summary">Designed consumer websites and public utility tracking portals.</p>
+                        <div class="job-details" id="detail-time3">
+                            <ul>
+                                <li>Developed the complete interface layout for Shikayat.pk (complaints dashboard).</li>
+                                <li>Designed a child vaccination scheduling portal to help parents track child growth milestones.</li>
+                                <li>Built user flows, interactive wireframes, and responsive templates.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline item 4: DevGate Consultancy -->
+                <div class="timeline-item" id="time4">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-header">
+                            <span class="job-duration">Sept 2023 - Nov 2023</span>
+                            <span class="job-company">DevGate Consultancy</span>
+                        </div>
+                        <h3>UI/UX Designer (Intern)</h3>
+                        <p class="job-summary">Designed key software products from mobile trackers to scanning utilities.</p>
+                        <div class="job-details" id="detail-time4">
+                            <ul>
+                                <li>Designed workout schedules, calorie count meters, and reports for a Health & Fitness app.</li>
+                                <li>Engineered flows and screens for a streamlined secure E-Banking app concept.</li>
+                                <li>Designed a clean, minimalist user interface for a PDF Scanner application.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact-section" id="contact">
+            <div class="contact-card-wrapper">
+                <div class="contact-info-panel">
+                    <span class="panel-subtitle">GET IN TOUCH</span>
+                    <h2>LET'S COMPOSE A NEW PORTAL TOGETHER</h2>
+                    <p>Have an interesting project, design system challenge, or role available? Drop a line and let's establish contact.</p>
+                    
+                    <div class="contact-links">
+                        <div class="contact-link-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <a href="mailto:fajarharoon12@gmail.com">fajarharoon12@gmail.com</a>
+                        </div>
+                        <div class="contact-link-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <a href="tel:+923315974137">+92 331 5974137</a>
+                        </div>
+                        <div class="contact-link-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Rawalpindi, Pakistan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-panel">
+                    <form id="contactForm">
+                        <!-- Web3Forms Configuration -->
+                        <input type="hidden" name="access_key" value="ec88c596-16a9-43bc-ac4d-1a836ca1544a">
+                        <input type="hidden" name="subject" value="New Inquiry from Portfolio Portal">
+                        <input type="hidden" name="from_name" value="Fajar's Portfolio Site">
+
+                        <div class="form-group">
+                            <label for="formName">YOUR NAME</label>
+                            <input type="text" id="formName" name="name" placeholder="Fajar Haroon" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail">YOUR EMAIL</label>
+                            <input type="email" id="formEmail" name="email" placeholder="you@domain.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formMessage">PROJECT DETAILS</label>
+                            <textarea id="formMessage" name="message" rows="5" placeholder="Let me know how we can collaborate..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitFormBtn">
+                            <span>TRANSMIT SIGNAL</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <div class="form-success-overlay" id="formSuccess">
+                        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h3>SIGNAL TRANSMITTED</h3>
+                        <p>Thank you. Your message has successfully traveled through our portal. Fajar will reply shortly.</p>
+                        <button class="reset-form-btn" id="resetFormBtn">SEND ANOTHER MESSAGE</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Pitch Video Overlay Modal -->
+    <div class="modal-overlay" id="pitchModal">
+        <div class="modal-card">
+            <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+            <div class="modal-video-container">
+                <!-- Simulating a videocall / pitch widget with custom interactive styling -->
+                <div class="sim-video-placeholder">
+                    <div class="video-overlay-glow"></div>
+                    <i class="fa-solid fa-video"></i>
+                    <h3>120-SECONDS CREATIVE PITCH</h3>
+                    <p>Connecting to video sequence...</p>
+                    <div class="video-progress-bar">
+                        <div class="video-progress-fill"></div>
+                    </div>
+                    <div class="video-controls-simulation">
+                        <button><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="play-sim"><i class="fa-solid fa-pause"></i></button>
+                        <button><i class="fa-solid fa-forward-step"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-caption">
+                <h4>Fajar Haroon - Design & Tech Pitch</h4>
+                <p>An interactive pitch demonstrating the synthesis of software quality assurance with visual design frameworks.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Fajar Haroon. All rights reserved. Created in collaboration with Antigravity.</p>
+            <div class="footer-tag">
+                <span>PORTAL SYSTEM V2.6 // VIBRANT PURPLE</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
