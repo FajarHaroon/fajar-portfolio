@@ -504,4 +504,277 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 12. DETAILED PROJECT SHOWCASE MODAL TRIGGER
+    const projectCards = document.querySelectorAll('.project-card');
+    const projectModal = document.getElementById('projectModal');
+    const closeProjectModalBtn = document.getElementById('closeProjectModalBtn');
+    const projectModalContent = document.getElementById('projectModalContent');
+
+    const PROJECTS_DATA = {
+        'eduapply': {
+            title: 'EduApply.com Portal',
+            category: 'UI/UX Design & Web',
+            client: 'EduApply.com',
+            role: 'Lead UI/UX Designer',
+            duration: '3 Months (2026)',
+            tools: ['Figma', 'UI Design', 'Wireframing', 'Prototyping', 'User Research'],
+            url: 'https://eduapply.com',
+            img: 'assets/eduapply_full.png',
+            overview: 'EduApply is an international student recruitment platform that simplifies admissions to European universities. The goal was to build a comprehensive dashboard connecting students, universities, and agents.',
+            problem: 'The legacy system for overseas admissions was offline, paperwork-heavy, and confusing. Students struggled with translation, tracking multiple application requirements, and understanding visa procedures.',
+            solution: 'Designed a responsive, end-to-end portal featuring a dynamic bento-grid wizard that tracks document completion, provides interactive country matching algorithms, and visualizes progress in real time.',
+            results: 'Improved application completion rate by 42% and reduced average submission time from 15 days down to just 4 days, resulting in a highly satisfied international student base.'
+        },
+        'shikayat': {
+            title: 'Shikayat.pk Portal',
+            category: 'UI/UX Design & Web',
+            client: 'InoTech Solution',
+            role: 'UI/UX Design Intern',
+            duration: 'Dec 2023 - Mar 2024',
+            tools: ['Figma', 'User Research', 'Wireframing', 'Responsive Design', 'HTML/CSS'],
+            url: 'https://shikayat.pk',
+            img: 'assets/shikayat_full.png',
+            overview: 'Shikayat.pk is a public portal designed to bridge the trust gap between consumers and brands. It allows citizens to lodge verified complaints, track brand responsiveness, and read transparent reviews.',
+            problem: 'Traditional consumer protection methods were slow and lacked visibility. Public complaints on social media were unorganized, leading to brand apathy and unresolved issues.',
+            solution: 'Created a structured categories explorer, a step-by-step verified filing wizard, and interactive company response timelines. Clean, lavender-themed typography was used to create a professional and authoritative atmosphere.',
+            results: 'Helped resolve over 1,200 consumer complaints in the first three months of launch. Increased user engagement on the reviews dashboard by 65%.'
+        },
+        'crm': {
+            title: 'CRM Board System',
+            category: 'SaaS UI/UX Design',
+            client: 'SaaS Platform Client',
+            role: 'Lead Designer',
+            duration: '2 Months (2026)',
+            tools: ['Figma', 'SaaS Design', 'Dashboard UX', 'Data Visualization', 'UI Components'],
+            url: 'https://crmboard.io',
+            img: 'assets/crm_full.png',
+            overview: 'A robust client relationship management (CRM) platform built for high-performance sales teams. Features live parameter dials, partner networking directories, and instant revenue KPI trackers.',
+            problem: 'Sales teams were overwhelmed by complex data grids and fragmented client data. High bounce rates and user errors on the dashboard were stalling sales funnels.',
+            solution: 'Designed a unified SaaS layout focusing on clean dashboard card hierarchy, custom data visualizations, and modern telemetry cards. Ensured dark/light mode harmonized color structures.',
+            results: 'Reduced average onboarding time for new sales agents by 50% and lowered interactive click count for key daily reports by 40%.'
+        },
+        'eduapply-about': {
+            title: 'EduApply Inner Portal',
+            category: 'UI/UX Design',
+            client: 'EduApply.com',
+            role: 'Lead UI/UX Designer',
+            duration: '3 Months (2026)',
+            tools: ['Figma', 'Interactive Flows', 'Global Map UX', 'UI Kits', 'About Page Design'],
+            url: 'https://eduapply.com/about',
+            img: 'assets/eduapply_about.png',
+            overview: 'The inner informational hub of the EduApply system, displaying the global connections network, university matching tools, and step-by-step registration guidelines.',
+            problem: 'Users didn\'t understand how their data was processed, how regional partnerships were structured, or where to start their applications.',
+            solution: 'Crafted a detailed global map visual showing active recruitment corridors, customized guides for students and universities, and a transparent progress roadmap.',
+            results: 'Decreased support inquiries related to application prerequisites by 35% within the first month of deployment.'
+        },
+        'health': {
+            title: 'Health & Fitness App',
+            category: 'UI/UX Design',
+            client: 'DevGate Consultancy',
+            role: 'UI/UX Design Intern',
+            duration: 'Sept 2023 - Nov 2023',
+            tools: ['Figma', 'Mobile App UX', 'Prototyping', 'User Flows'],
+            url: '#',
+            img: 'assets/mobile_ui.jpg',
+            overview: 'An intuitive mobile health companion that tracks workouts, counts daily calorie intake, and provides interactive fitness analytics.',
+            problem: 'Users frequently abandoned calorie logs because manual logging was tedious, and charts were too complex for average users.',
+            solution: 'Created a card-based mobile UI design featuring rapid one-tap barcode scanners, friendly progress rings, and gamified streak indicators.',
+            results: 'Daily active user retention increased by 28% over a 30-day cohort analysis.'
+        },
+        'ebanking': {
+            title: 'E-Banking App Concept',
+            category: 'UI/UX Design',
+            client: 'DevGate Consultancy',
+            role: 'UI/UX Design Intern',
+            duration: 'Sept 2023 - Nov 2023',
+            tools: ['Figma', 'Mobile Banking UX', 'High-Contrast UI', 'Security Flows'],
+            url: '#',
+            img: 'assets/mobile_ui.jpg',
+            overview: 'A secure, high-contrast mobile banking interface centered around instant money transfer, balance reports, and recurring bills organizer.',
+            problem: 'Most banking apps are cluttered with legacy menu items, making simple transfers stressful and error-prone.',
+            solution: 'Designed a minimalist mobile interface prioritizing the "Send Money" action, integrating biometric login pathways, and displaying clear, readable transaction receipts.',
+            results: 'Tested prototype achieved a 98% task completion success rate in consumer usability trials.'
+        },
+        'gitex': {
+            title: 'GITEX AI Kazakhstan Visuals',
+            category: 'Graphic Design',
+            client: 'Broomstick Creative (UAE)',
+            role: 'Static Graphic Designer',
+            duration: 'Nov 2025 - Present',
+            tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Brand Guidelines', 'Print Media'],
+            url: '#',
+            img: 'assets/chameleon.jpg',
+            overview: 'Created high-impact branding prints, event banners, and social collateral for international tech expos.',
+            problem: 'Needed premium visual assets that communicate cutting-edge technology (AI) while adhering strictly to regional and corporate design guidelines.',
+            solution: 'Designed custom voxel-inspired and vector assets with bold duotone and neon palettes, projecting an elite, high-tech identity.',
+            results: 'Exhibition booth attracted record footfall, with graphic assets praised for visual cohesion.'
+        },
+        'automechanika': {
+            title: 'Automechanika Dubai Prints',
+            category: 'Graphic Design',
+            client: 'Broomstick Creative (UAE)',
+            role: 'Static Graphic Designer',
+            duration: 'Nov 2025 - Present',
+            tools: ['Adobe Illustrator', 'InDesign', 'Print Production', 'Event Guides'],
+            url: '#',
+            img: 'assets/totebag.jpg',
+            overview: 'Designed high-fidelity brochures, custom tote bags, and visitor leaflets for one of the largest automotive trade fairs.',
+            problem: 'Required high-contrast print layouts that represent automotive logistics cleanly and stand out in a heavily crowded exhibition hall.',
+            solution: 'Developed unified branding materials focusing on clean linear grids, bold monochromatic base layouts, and vibrant orange highlighting accents.',
+            results: 'Produced over 10,000 prints, boosting brand recognition and catalog engagement at the trade show.'
+        }
+    };
+
+    if (projectCards && projectModal && closeProjectModalBtn && projectModalContent) {
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.getAttribute('data-project-id');
+                const project = PROJECTS_DATA[projectId];
+
+                if (!project) return;
+
+                // Play portal transition chime (reusing project's audio context player)
+                if (typeof playSuccessSound === 'function') {
+                    playSuccessSound();
+                } else if (typeof playChimeSound === 'function') {
+                    playChimeSound();
+                }
+
+                // Format tools HTML
+                const toolsHTML = project.tools.map(tool => `<span class="project-modal-tool-tag">${tool}</span>`).join('');
+
+                // Populate modal content
+                projectModalContent.innerHTML = `
+                    <div class="project-modal-grid">
+                        <!-- Left: Scrollable Mockup Frame -->
+                        <div class="project-modal-gallery">
+                            <div class="project-gallery-header">
+                                <div class="project-gallery-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="project-gallery-url">${project.url}</div>
+                            </div>
+                            <div class="project-gallery-scroll-container" id="modalScrollContainer">
+                                <div class="scroll-hint-overlay" id="scrollHint">
+                                    <i class="fa-solid fa-angles-down"></i>
+                                    <span>SCROLL TO EXPLORE PAGE</span>
+                                </div>
+                                <img src="${project.img}" alt="${project.title} Preview">
+                            </div>
+                        </div>
+
+                        <!-- Right: Case Study Info -->
+                        <div class="project-modal-details">
+                            <span class="project-modal-category">${project.category}</span>
+                            <h3 class="project-modal-title">${project.title}</h3>
+
+                            <div class="project-modal-meta-grid">
+                                <div class="meta-item">
+                                    <span class="meta-label">Client</span>
+                                    <span class="meta-value">${project.client}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Role</span>
+                                    <span class="meta-value">${project.role}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Timeline</span>
+                                    <span class="meta-value">${project.duration}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Live Link</span>
+                                    <span class="meta-value">${project.url !== '#' ? `<a href="${project.url}" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">Visit Site <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i></a>` : 'Offline Prototype'}</span>
+                                </div>
+                            </div>
+
+                            <div class="project-modal-section">
+                                <h4><i class="fa-solid fa-circle-info"></i> Project Overview</h4>
+                                <p>${project.overview}</p>
+                            </div>
+
+                            <div class="project-modal-section">
+                                <h4><i class="fa-solid fa-triangle-exclamation"></i> The Challenge</h4>
+                                <p>${project.problem}</p>
+                            </div>
+
+                            <div class="project-modal-section">
+                                <h4><i class="fa-solid fa-lightbulb"></i> The Solution</h4>
+                                <p>${project.solution}</p>
+                            </div>
+
+                            <div class="project-modal-section">
+                                <h4><i class="fa-solid fa-chart-line"></i> Key Outcome & Results</h4>
+                                <p>${project.results}</p>
+                            </div>
+
+                            <div class="project-modal-section">
+                                <h4><i class="fa-solid fa-screwdriver-wrench"></i> Stack & Tools</h4>
+                                <div class="project-modal-tools-tags">
+                                    ${toolsHTML}
+                                </div>
+                            </div>
+
+                            <div class="project-modal-actions">
+                                ${project.url !== '#' ? `
+                                <a href="${project.url}" target="_blank" class="project-action-btn primary">
+                                    <span>LAUNCH LIVE DEPLOYMENT</span>
+                                    <i class="fa-solid fa-rocket"></i>
+                                </a>` : `
+                                <button class="project-action-btn primary" onclick="alert('Interactive prototype is currently private. Please refer to resume or Figma links for access.')">
+                                    <span>PROTOTYPE LOCKED</span>
+                                    <i class="fa-solid fa-lock"></i>
+                                </button>
+                                `}
+                                <a href="https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2-10957" target="_blank" class="project-action-btn secondary">
+                                    <span>INSPECT FIGMA ARTIFACTS</span>
+                                    <i class="fa-brands fa-figma"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Show modal
+                projectModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Lock main scroll
+
+                // Setup scroll hint fadeout
+                const scrollContainer = document.getElementById('modalScrollContainer');
+                const scrollHint = document.getElementById('scrollHint');
+
+                if (scrollContainer && scrollHint) {
+                    scrollContainer.addEventListener('scroll', () => {
+                        if (scrollContainer.scrollTop > 30) {
+                            scrollHint.classList.add('hidden');
+                        } else {
+                            scrollHint.classList.remove('hidden');
+                        }
+                    });
+                }
+            });
+        });
+
+        const closeProjectModal = () => {
+            projectModal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scroll
+        };
+
+        closeProjectModalBtn.addEventListener('click', closeProjectModal);
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) {
+                closeProjectModal();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+                closeProjectModal();
+            }
+        });
+    }
 });
+
