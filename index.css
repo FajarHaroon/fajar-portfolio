@@ -58,42 +58,50 @@ body {
     background: var(--accent-purple);
 }
 
-/* LIQUID CUSTOM CURSOR */
+/* LIQUID GLASS LENS CURSOR */
 .custom-cursor-dot {
     width: 6px;
     height: 6px;
-    background-color: var(--text-primary);
+    background-color: var(--accent-cyan);
     border-radius: 50%;
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 9999;
-    transition: width 0.1s, height 0.1s, background-color 0.1s;
+    z-index: 99999;
+    box-shadow: 0 0 10px var(--accent-cyan);
+    transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease;
 }
 
 .custom-cursor-glow {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--accent-purple);
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid rgba(162, 70, 240, 0.6);
     border-radius: 50%;
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.08s ease-out, width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+    z-index: 99998;
+    backdrop-filter: blur(6px) brightness(1.15) contrast(1.1);
+    -webkit-backdrop-filter: blur(6px) brightness(1.15) contrast(1.1);
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.25), rgba(162, 70, 240, 0.08));
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.2), 0 0 25px rgba(162, 70, 240, 0.35);
+    transition: width 0.25s var(--transition-smooth), height 0.25s var(--transition-smooth), border-color 0.25s, background 0.25s, box-shadow 0.25s;
 }
 
 /* Cursor states on hover */
 body.cursor-hovering .custom-cursor-dot {
-    width: 12px;
-    height: 12px;
-    background-color: var(--accent-cyan);
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 15px #fff;
 }
+
 body.cursor-hovering .custom-cursor-glow {
-    width: 60px;
-    height: 60px;
+    width: 72px;
+    height: 72px;
     border-color: var(--accent-cyan);
-    background-color: rgba(0, 240, 255, 0.05);
+    background: radial-gradient(circle at 35% 35%, rgba(0, 240, 255, 0.3), rgba(162, 70, 240, 0.15));
+    box-shadow: inset 0 0 18px rgba(0, 240, 255, 0.3), 0 0 35px rgba(0, 240, 255, 0.4);
 }
 
 /* AMBIENT BACKGROUNDS & OVERLAYS */
@@ -2330,3 +2338,650 @@ form {
         padding-top: 12px;
     }
 }
+
+/* ==========================================================================
+   PLAYFUL TEXT-BASED INTERACTIVE DESIGNER WIDGET CARDS
+   ========================================================================== */
+
+.designer-widget-card {
+    min-height: 360px;
+    background: rgba(18, 12, 32, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+    cursor: pointer;
+}
+
+.designer-widget-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-purple);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.4), 0 0 25px var(--accent-purple-glow);
+}
+
+.widget-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    z-index: 5;
+}
+
+.widget-badge {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    background: rgba(0, 240, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.widget-action-hint, .sticky-hint, .marquee-hint, .glitch-hint {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-family: var(--font-head);
+}
+
+.widget-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 5;
+}
+
+/* 1. CHALKBOARD CARD */
+.card-chalkboard {
+    background: #151a17 !important;
+    border-color: #27362d !important;
+}
+
+.clear-chalk-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clear-chalk-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: #ef4444;
+}
+
+.chalkboard-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #111513;
+    border-radius: 12px;
+    border: 2px solid #232c27;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#chalkboardCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    z-index: 2;
+}
+
+.chalkboard-overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    text-align: center;
+    width: 90%;
+    z-index: 1;
+}
+
+.chalk-subtitle {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #64748b;
+}
+
+.chalk-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #f1f5f9;
+    margin: 4px 0;
+}
+
+.chalk-hint {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* 2. COLOR SWATCH LAB CARD */
+.swatch-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+}
+
+.swatch-headline h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.swatches-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.swatch-chip {
+    height: 60px;
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-head);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.swatch-chip:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+.swatch-name {
+    font-size: 0.58rem;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+.swatch-hex {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.type-preview-row {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.type-sample-tag {
+    font-size: 0.6rem;
+    color: var(--accent-purple);
+    font-family: var(--font-head);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.type-sample-text {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 3. CYBER MATRIX CARD */
+.card-matrix {
+    background: #090e17 !important;
+    border-color: #172436 !important;
+}
+
+.matrix-status-dot {
+    font-size: 0.6rem;
+    color: #10b981;
+    font-family: var(--font-head);
+    font-weight: bold;
+    animation: blinkGlow 1.5s infinite;
+}
+
+.matrix-scramble-container {
+    padding: 14px;
+    background: rgba(16, 24, 38, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    margin-bottom: 10px;
+}
+
+.matrix-label {
+    font-size: 0.6rem;
+    font-family: var(--font-head);
+    color: var(--accent-cyan);
+    letter-spacing: 1.5px;
+}
+
+.scramble-title {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin: 4px 0 6px;
+}
+
+.scramble-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.matrix-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.m-stat {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.m-stat-val {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--accent-cyan);
+}
+
+.m-stat-lbl {
+    font-size: 0.58rem;
+    color: var(--text-muted);
+}
+
+/* 4. FIGMA VARIANT SWITCHER CARD */
+.card-figma-variants {
+    background: #18181b !important;
+    border-color: #27272a !important;
+}
+
+.variant-active-tag {
+    font-size: 0.65rem;
+    color: #a855f7;
+    font-weight: bold;
+    font-family: var(--font-head);
+}
+
+.figma-widget-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.figma-comp-label {
+    font-size: 0.62rem;
+    color: #a1a1aa;
+    font-family: monospace;
+}
+
+.figma-preview-stage {
+    height: 90px;
+    background: #09090b;
+    border: 1px dashed #3f3f46;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.figma-demo-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.25s var(--transition-smooth);
+    border: none;
+    cursor: pointer;
+}
+
+.figma-demo-btn.state-default {
+    background: #4f46e5;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.figma-demo-btn.state-hover {
+    background: #a246f0;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(162, 70, 240, 0.5);
+}
+
+.figma-demo-btn.state-active {
+    background: #00f0ff;
+    color: #000;
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(0, 240, 255, 0.4);
+}
+
+.figma-demo-btn.state-disabled {
+    background: #3f3f46;
+    color: #71717a;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.figma-controls-chips {
+    display: flex;
+    gap: 6px;
+}
+
+.variant-chip {
+    flex: 1;
+    padding: 6px 4px;
+    border-radius: 6px;
+    background: #27272a;
+    border: 1px solid #3f3f46;
+    color: #d4d4d8;
+    font-size: 0.62rem;
+    font-family: var(--font-head);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.variant-chip.active, .variant-chip:hover {
+    background: #a855f7;
+    border-color: #c084fc;
+    color: #fff;
+}
+
+/* 5. STICKY KANBAN CARD */
+.sticky-board-body h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.sticky-notes-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sticky-note {
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sticky-note:hover {
+    transform: translateX(4px) scale(1.02);
+}
+
+.sticky-note.note-yellow { background: #fef08a; }
+.sticky-note.note-purple { background: #e9d5ff; }
+.sticky-note.note-cyan { background: #cffaff; }
+
+.sticky-note.completed {
+    opacity: 0.65;
+    text-decoration: line-through;
+}
+
+.sticky-check {
+    font-weight: 900;
+}
+
+/* 6. PIXEL SPEC RULER CARD */
+.card-pixel-ruler {
+    background: #0b1021 !important;
+    border-color: #1a2342 !important;
+}
+
+.coords-display {
+    font-family: monospace;
+    font-size: 0.65rem;
+    color: var(--accent-cyan);
+}
+
+.ruler-card-body {
+    position: relative;
+    height: 160px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ruler-top-scale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #38bdf8 0px, #38bdf8 1px, transparent 1px, transparent 10px);
+    opacity: 0.5;
+}
+
+.ruler-left-scale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, #38bdf8 0px, #38bdf8 1px, transparent 1px, transparent 10px);
+    opacity: 0.5;
+}
+
+.ruler-crosshair-h {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: rgba(56, 189, 248, 0.4);
+    top: 50%;
+    pointer-events: none;
+}
+
+.ruler-crosshair-v {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background: rgba(56, 189, 248, 0.4);
+    left: 50%;
+    pointer-events: none;
+}
+
+.ruler-content {
+    text-align: center;
+    z-index: 2;
+}
+
+.ruler-sub {
+    font-family: var(--font-head);
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan);
+}
+
+.ruler-content h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #f8fafc;
+    margin: 4px 0 6px;
+}
+
+.spec-pills-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.spec-pill {
+    font-size: 0.58rem;
+    font-family: monospace;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #7dd3fc;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 7. KINETIC MARQUEE CARD */
+.kinetic-marquee-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+}
+
+.marquee-track {
+    overflow: hidden;
+    white-space: nowrap;
+    background: rgba(162, 70, 240, 0.1);
+    border-top: 1px solid rgba(162, 70, 240, 0.3);
+    border-bottom: 1px solid rgba(162, 70, 240, 0.3);
+    padding: 8px 0;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marqueeScroll 12s linear infinite;
+}
+
+.marquee-content span {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--accent-purple);
+    letter-spacing: 1px;
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.marquee-footer-info h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.marquee-footer-info p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* 8. HOLOGRAPHIC GLITCH CARD */
+.card-glitch-spec {
+    background: #0f0b1e !important;
+}
+
+.glitch-card-body {
+    position: relative;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(22, 16, 38, 0.6);
+    border: 1px solid rgba(162, 70, 240, 0.2);
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.glitch-foil-layer {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(115deg, transparent 20%, rgba(0, 240, 255, 0.15) 40%, rgba(162, 70, 240, 0.2) 60%, transparent 80%);
+    transform: rotate(25deg);
+    pointer-events: none;
+    transition: transform 0.5s ease;
+}
+
+.card-glitch-spec:hover .glitch-foil-layer {
+    transform: rotate(25deg) translate(30px, 30px);
+}
+
+.glitch-tag {
+    font-family: var(--font-head);
+    font-size: 0.6rem;
+    color: var(--accent-cyan);
+    letter-spacing: 1.5px;
+}
+
+.glitch-title {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin: 4px 0 6px;
+    position: relative;
+}
+
+.card-glitch-spec:hover .glitch-title {
+    animation: glitchText 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes glitchText {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes blinkGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+

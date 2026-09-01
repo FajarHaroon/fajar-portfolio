@@ -776,5 +776,212 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 13. PLAYFUL DESIGNER WIDGET INTERACTION SCRIPTS
+
+    // (A) Chalkboard Drawing Canvas Logic
+    const chalkboardCanvas = document.getElementById('chalkboardCanvas');
+    const clearChalkBtn = document.getElementById('clearChalkBtn');
+
+    if (chalkboardCanvas) {
+        const ctx = chalkboardCanvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        const drawInitialChalkDoodle = () => {
+            ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Draw a wireframe box & star on blackboard
+            ctx.beginPath();
+            ctx.rect(20, 20, 160, 90);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(280, 65, 25, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.font = '13px sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+            ctx.fillText('⚡ UX WIREFRAME BOARD', 25, 140);
+        };
+
+        const resizeCanvas = () => {
+            const rect = chalkboardCanvas.getBoundingClientRect();
+            chalkboardCanvas.width = rect.width;
+            chalkboardCanvas.height = rect.height;
+            drawInitialChalkDoodle();
+        };
+
+        setTimeout(resizeCanvas, 300);
+
+        const getPos = (e) => {
+            const rect = chalkboardCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: clientX - rect.left,
+                y: clientY - rect.top
+            };
+        };
+
+        const startDrawing = (e) => {
+            e.stopPropagation(); // Stop parent modal trigger when drawing
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+        };
+
+        const draw = (e) => {
+            if (!isDrawing) return;
+            e.stopPropagation();
+            const pos = getPos(e);
+
+            ctx.strokeStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.shadowBlur = 4;
+            ctx.lineWidth = Math.random() * 2 + 2;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            lastX = pos.x;
+            lastY = pos.y;
+        };
+
+        const stopDrawing = (e) => {
+            if (isDrawing) {
+                if (e) e.stopPropagation();
+                isDrawing = false;
+            }
+        };
+
+        chalkboardCanvas.addEventListener('mousedown', startDrawing);
+        chalkboardCanvas.addEventListener('mousemove', draw);
+        chalkboardCanvas.addEventListener('mouseup', stopDrawing);
+        chalkboardCanvas.addEventListener('mouseleave', stopDrawing);
+
+        chalkboardCanvas.addEventListener('touchstart', startDrawing);
+        chalkboardCanvas.addEventListener('touchmove', draw);
+        chalkboardCanvas.addEventListener('touchend', stopDrawing);
+
+        if (clearChalkBtn) {
+            clearChalkBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent opening modal
+                drawInitialChalkDoodle();
+                if (typeof playTone === 'function') playTone(400, 'sine', 0.08);
+            });
+        }
+    }
+
+    // (B) Color Swatch Lab - Copy Hex Code
+    const swatchChips = document.querySelectorAll('.swatch-chip');
+    swatchChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent modal opening
+            const hex = chip.getAttribute('data-hex');
+            if (hex) {
+                navigator.clipboard.writeText(hex).then(() => {
+                    const originalText = chip.querySelector('.swatch-hex').innerText;
+                    chip.querySelector('.swatch-hex').innerText = 'COPIED!';
+                    if (typeof playSuccessSound === 'function') playSuccessSound();
+                    setTimeout(() => {
+                        chip.querySelector('.swatch-hex').innerText = originalText;
+                    }, 1200);
+                }).catch(() => {});
+            }
+        });
+    });
+
+    // (C) Cyber Matrix Scramble
+    const scrambleTitle = document.getElementById('crmScrambleTitle');
+    const scrambleDesc = document.getElementById('crmScrambleDesc');
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+
+    const triggerScramble = (el) => {
+        if (!el) return;
+        const originalText = el.innerText;
+        let iteration = 0;
+        const interval = setInterval(() => {
+            el.innerText = originalText.split('').map((char, index) => {
+                if (index < iteration) return originalText[index];
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+            
+            if (iteration >= originalText.length) {
+                clearInterval(interval);
+            }
+            iteration += 1 / 2;
+        }, 30);
+    };
+
+    const matrixCard = document.querySelector('.card-matrix');
+    if (matrixCard) {
+        matrixCard.addEventListener('mouseenter', () => {
+            triggerScramble(scrambleTitle);
+        });
+    }
+
+    // (D) Figma Variant Switcher Logic
+    const variantChips = document.querySelectorAll('.variant-chip');
+    const figmaDemoBtn = document.getElementById('figmaDemoBtn');
+    const variantStateLabel = document.getElementById('variantStateLabel');
+
+    if (variantChips && figmaDemoBtn) {
+        variantChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent modal opening
+                variantChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                const state = chip.getAttribute('data-state');
+                figmaDemoBtn.className = `figma-demo-btn state-${state}`;
+                if (variantStateLabel) {
+                    variantStateLabel.innerText = `Active: ${state.charAt(0).toUpperCase() + state.slice(1)}`;
+                }
+                if (typeof playClickSound === 'function') playClickSound();
+            });
+        });
+    }
+
+    // (E) Sticky Sprint Kanban Notes
+    const stickyNotes = document.querySelectorAll('.sticky-note');
+    stickyNotes.forEach(note => {
+        note.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent modal opening
+            note.classList.toggle('completed');
+            const check = note.querySelector('.sticky-check');
+            if (check) {
+                check.innerText = note.classList.contains('completed') ? '✓' : '○';
+            }
+            if (typeof playClickSound === 'function') playClickSound();
+        });
+    });
+
+    // (F) Pixel Spec Ruler Crosshair Coordinates
+    const rulerBody = document.getElementById('rulerBody');
+    const rulerH = document.getElementById('rulerH');
+    const rulerV = document.getElementById('rulerV');
+    const rulerCoords = document.getElementById('rulerCoords');
+
+    if (rulerBody && rulerH && rulerV && rulerCoords) {
+        rulerBody.addEventListener('mousemove', (e) => {
+            const rect = rulerBody.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+
+            rulerH.style.top = `${y}px`;
+            rulerV.style.left = `${x}px`;
+            rulerCoords.innerText = `X: ${x}px | Y: ${y}px`;
+        });
+    }
 });
 

@@ -273,110 +273,226 @@
                 </div>
             </div>
 
-            <!-- Bento Project Grid -->
+            <!-- Bento Project Grid: Interactive Designer Cards (No Image Thumbnails) -->
             <div class="projects-grid" id="projectsGrid">
                 
-                <!-- EduApply.com Landing Page (UI/UX) -->
-                <div class="project-card" data-category="uiux" data-project-id="eduapply">
-                    <div class="project-img-wrapper">
-                        <img src="assets/eduapply_full.png" alt="EduApply.com Landing Page">
-                        <div class="project-overlay">
-                            <span class="project-category">UI/UX Design</span>
-                            <h3>EduApply.com Portal</h3>
-                            <p>Revolutionizing international student recruitment with a streamlined, responsive university admission portal.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 1: Blackboard Wireframe Canvas (Shikayat.pk) -->
+                <div class="project-card designer-widget-card card-chalkboard" data-category="uiux" data-project-id="shikayat">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-pen-ruler"></i> Interactive Blackboard</span>
+                        <button class="clear-chalk-btn" id="clearChalkBtn" title="Erase Chalkboard"><i class="fa-solid fa-eraser"></i> Erase</button>
+                    </div>
+                    <div class="chalkboard-canvas-container">
+                        <canvas id="chalkboardCanvas" width="450" height="220"></canvas>
+                        <div class="chalkboard-overlay-text">
+                            <span class="chalk-subtitle">CHALKBOARD WIREFRAME</span>
+                            <h3 class="chalk-title">Shikayat.pk Portal</h3>
+                            <p class="chalk-hint">✍️ Drag mouse to draw with chalk on board!</p>
                         </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">UI/UX & Consumer Protection</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- Shikayat.pk (UI/UX / Web) -->
-                <div class="project-card" data-category="uiux" data-project-id="shikayat">
-                    <div class="project-img-wrapper">
-                        <img src="assets/shikayat_full.png" alt="Shikayat.pk Website">
-                        <div class="project-overlay">
-                            <span class="project-category">UI/UX Design & Web</span>
-                            <h3>Shikayat.pk Portal</h3>
-                            <p>Designed a user-centric complaints registration panel to support consumer-brand transparency.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 2: Color Palette Spec Lab (EduApply.com) -->
+                <div class="project-card designer-widget-card card-color-swatch" data-category="uiux" data-project-id="eduapply">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-palette"></i> Design System Swatches</span>
+                        <span class="widget-action-hint">Click Hex to Copy</span>
+                    </div>
+                    <div class="swatch-card-body">
+                        <div class="swatch-headline">
+                            <span class="project-category">EduApply.com</span>
+                            <h3>International Admissions System</h3>
                         </div>
+                        <div class="swatches-grid">
+                            <div class="swatch-chip" data-hex="#4F46E5" style="background: #4F46E5;">
+                                <span class="swatch-name">Edu Blue</span>
+                                <span class="swatch-hex">#4F46E5</span>
+                            </div>
+                            <div class="swatch-chip" data-hex="#A246F0" style="background: #A246F0;">
+                                <span class="swatch-name">Purple Glow</span>
+                                <span class="swatch-hex">#A246F0</span>
+                            </div>
+                            <div class="swatch-chip" data-hex="#00F0FF" style="background: #00F0FF; color: #000;">
+                                <span class="swatch-name">Cyan Accent</span>
+                                <span class="swatch-hex">#00F0FF</span>
+                            </div>
+                            <div class="swatch-chip" data-hex="#0E0A18" style="background: #0E0A18; border: 1px solid #332454;">
+                                <span class="swatch-name">Deep Void</span>
+                                <span class="swatch-hex">#0E0A18</span>
+                            </div>
+                        </div>
+                        <div class="type-preview-row">
+                            <span class="type-sample-tag">Font: Outfit 800</span>
+                            <span class="type-sample-text">Revolutionizing European Journeys</span>
+                        </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">UI/UX & Education</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- CRM Board Solution (UI/UX / SaaS) -->
-                <div class="project-card" data-category="uiux" data-project-id="crm">
-                    <div class="project-img-wrapper">
-                        <img src="assets/crm_full.png" alt="CRM Board SaaS Dashboard">
-                        <div class="project-overlay">
-                            <span class="project-category">SaaS UI/UX Design</span>
-                            <h3>CRM Board System</h3>
-                            <p>Boost client relations and sales tracking with an all-in-one business intelligence visual dashboard.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 3: Cyber Matrix Telemetry (CRM Board) -->
+                <div class="project-card designer-widget-card card-matrix" data-category="uiux" data-project-id="crm">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-terminal"></i> Telemetry Scramble</span>
+                        <span class="matrix-status-dot">● LIVE DATA</span>
+                    </div>
+                    <div class="matrix-card-body">
+                        <div class="matrix-scramble-container">
+                            <span class="matrix-label">DECODER ACTIVE</span>
+                            <h3 class="scramble-title" id="crmScrambleTitle">CRM Board System</h3>
+                            <p class="scramble-desc" id="crmScrambleDesc">All-in-one business intelligence and sales performance pipeline dashboard.</p>
                         </div>
+                        <div class="matrix-stats-row">
+                            <div class="m-stat">
+                                <span class="m-stat-val">600%</span>
+                                <span class="m-stat-lbl">ROI Boost</span>
+                            </div>
+                            <div class="m-stat">
+                                <span class="m-stat-val">40+</span>
+                                <span class="m-stat-lbl">API Modules</span>
+                            </div>
+                            <div class="m-stat">
+                                <span class="m-stat-val">4k+</span>
+                                <span class="m-stat-lbl">Global Clients</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">SaaS & Data Vis</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- EduApply.com Inner Page (UI/UX) -->
-                <div class="project-card" data-category="uiux" data-project-id="eduapply-about">
-                    <div class="project-img-wrapper">
-                        <img src="assets/eduapply_about.png" alt="EduApply.com About Portal Page">
-                        <div class="project-overlay">
-                            <span class="project-category">UI/UX Design</span>
-                            <h3>EduApply Inner Portal</h3>
-                            <p>An inside look at student guides, global mapping grids, and interactive student-agent dashboards.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 4: Figma Variant Switcher (EduApply Inner Portal) -->
+                <div class="project-card designer-widget-card card-figma-variants" data-category="uiux" data-project-id="eduapply-about">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-brands fa-figma"></i> Figma Variant Switcher</span>
+                        <span class="variant-active-tag" id="variantStateLabel">Active: Hover</span>
+                    </div>
+                    <div class="figma-widget-body">
+                        <span class="figma-comp-label">Component: #EduApply-Button-Primary</span>
+                        <div class="figma-preview-stage">
+                            <button class="figma-demo-btn state-hover" id="figmaDemoBtn">
+                                <span class="figma-btn-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                                <span class="figma-btn-text">APPLY NOW // V2.4</span>
+                            </button>
                         </div>
+                        <div class="figma-controls-chips">
+                            <button class="variant-chip" data-state="default">Default</button>
+                            <button class="variant-chip active" data-state="hover">Hover</button>
+                            <button class="variant-chip" data-state="active">Active</button>
+                            <button class="variant-chip" data-state="disabled">Disabled</button>
+                        </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">Inner Portal & Global Map</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- Health & Fitness App (UI/UX) -->
-                <div class="project-card" data-category="uiux" data-project-id="health">
-                    <div class="project-img-wrapper">
-                        <img src="assets/mobile_ui.jpg" alt="Health & Fitness Dashboard">
-                        <div class="project-overlay">
-                            <span class="project-category">DevGate Consultancy</span>
-                            <h3>Health & Fitness App</h3>
-                            <p>Designed workout tracking, nutrition logging, and clean charts to enhance daily health monitoring.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 5: Sticky Sprint Kanban (Health & Fitness App) -->
+                <div class="project-card designer-widget-card card-sticky-notes" data-category="uiux" data-project-id="health">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-note-sticky"></i> UX Sprint Kanban</span>
+                        <span class="sticky-hint">Tap Tasks to Complete</span>
+                    </div>
+                    <div class="sticky-board-body">
+                        <h3>Health & Fitness App</h3>
+                        <div class="sticky-notes-stack">
+                            <div class="sticky-note note-yellow completed">
+                                <span class="sticky-check">✓</span>
+                                <span class="sticky-text">Calorie Tracker Wireframes</span>
+                            </div>
+                            <div class="sticky-note note-purple">
+                                <span class="sticky-check">○</span>
+                                <span class="sticky-text">Nutrition Log Micro-animations</span>
+                            </div>
+                            <div class="sticky-note note-cyan">
+                                <span class="sticky-check">○</span>
+                                <span class="sticky-text">Usability Cohort Testing</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">Mobile UX & Fitness</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- E-Banking App (UI/UX) -->
-                <div class="project-card" data-category="uiux" data-project-id="ebanking">
-                    <div class="project-img-wrapper">
-                        <img src="assets/mobile_ui.jpg" alt="E-Banking Mobile App Interface">
-                        <div class="project-overlay">
-                            <span class="project-category">DevGate Consultancy</span>
+                <!-- Card 6: Pixel Spec Crosshair Ruler (E-Banking App Concept) -->
+                <div class="project-card designer-widget-card card-pixel-ruler" data-category="uiux" data-project-id="ebanking">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-ruler-combined"></i> Pixel Spec Crosshairs</span>
+                        <span class="coords-display" id="rulerCoords">X: 240px | Y: 120px</span>
+                    </div>
+                    <div class="ruler-card-body" id="rulerBody">
+                        <div class="ruler-top-scale"></div>
+                        <div class="ruler-left-scale"></div>
+                        <div class="ruler-crosshair-h" id="rulerH"></div>
+                        <div class="ruler-crosshair-v" id="rulerV"></div>
+                        <div class="ruler-content">
+                            <span class="ruler-sub">HIGH-CONTRAST MOBILE</span>
                             <h3>E-Banking App Concept</h3>
-                            <p>Streamlined dashboard interfaces with high-contrast UI assets to enhance secure financial operations.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                            <div class="spec-pills-row">
+                                <span class="spec-pill">Radius: 20px</span>
+                                <span class="spec-pill">Padding: 16px</span>
+                                <span class="spec-pill">Contrast: 7.5:1 AAA</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">Mobile Banking & FinTech</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- Event Visuals GITEX AI (Graphic) -->
-                <div class="project-card" data-category="graphic" data-project-id="gitex">
-                    <div class="project-img-wrapper">
-                        <img src="assets/chameleon.jpg" alt="GITEX AI Expo Banner">
-                        <div class="project-overlay">
-                            <span class="project-category">Broomstick Creative, UAE</span>
-                            <h3>GITEX AI Kazakhstan Visuals</h3>
-                            <p>Created static visuals, expos banners, and branding prints maintaining strict corporate style sheets.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 7: Kinetic Typography Marquee (GITEX AI Kazakhstan Visuals) -->
+                <div class="project-card designer-widget-card card-kinetic-marquee" data-category="graphic" data-project-id="gitex">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Kinetic Type & Motion</span>
+                        <span class="marquee-hint">Hover to Accelerate</span>
+                    </div>
+                    <div class="kinetic-marquee-body">
+                        <div class="marquee-track" id="marqueeTrack">
+                            <div class="marquee-content">
+                                <span>GITEX AI KAZAKHSTAN ★ EXPO VISUALS ★ BRANDING IN MOTION ★ DUOTONE NEON ★</span>
+                                <span>GITEX AI KAZAKHSTAN ★ EXPO VISUALS ★ BRANDING IN MOTION ★ DUOTONE NEON ★</span>
+                            </div>
                         </div>
+                        <div class="marquee-footer-info">
+                            <h3>GITEX AI Expo Visuals</h3>
+                            <p>International expo print graphics, vector masons, and high-impact event signage.</p>
+                        </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">Broomstick Creative (UAE)</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
-                <!-- Automechanika Dubai (Graphic) -->
-                <div class="project-card" data-category="graphic" data-project-id="automechanika">
-                    <div class="project-img-wrapper">
-                        <img src="assets/totebag.jpg" alt="Automechanika Dubai Event Visuals">
-                        <div class="project-overlay">
-                            <span class="project-category">Broomstick Creative, UAE</span>
-                            <h3>Automechanika Dubai Print Media</h3>
-                            <p>Designed custom print materials, social announcements, and brand guides for the event.</p>
-                            <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
+                <!-- Card 8: Holographic Glitch Spec (Automechanika Dubai Prints) -->
+                <div class="project-card designer-widget-card card-glitch-spec" data-category="graphic" data-project-id="automechanika">
+                    <div class="widget-card-header">
+                        <span class="widget-badge"><i class="fa-solid fa-microchip"></i> Holographic Spec</span>
+                        <span class="glitch-hint">Interactive Glitch</span>
+                    </div>
+                    <div class="glitch-card-body">
+                        <div class="glitch-foil-layer"></div>
+                        <div class="glitch-front-content">
+                            <span class="glitch-tag">TRADE SHOW PRINT MEDIA</span>
+                            <h3 class="glitch-title" data-text="Automechanika Dubai">Automechanika Dubai</h3>
+                            <p>Over 10,000 prints, visitor guides, custom tote bags, and exhibit catalogs.</p>
                         </div>
+                    </div>
+                    <div class="widget-card-footer">
+                        <span class="project-category">Graphic & Print Media</span>
+                        <span class="project-link-badge">Inspect Case Study <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
 
