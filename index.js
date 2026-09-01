@@ -76,7 +76,7 @@ if (sfxToggle) {
 // DOM LOAD LOGIC
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. LIQUID CURSOR TRACKER
+    // 1. LIQUID GLASS CURSOR TRACKER
     const cursorDot = document.getElementById('cursorDot');
     const cursorGlow = document.getElementById('cursorGlow');
     let mouseX = window.innerWidth / 2;
@@ -85,16 +85,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let dotY = mouseY;
     let glowX = mouseX;
     let glowY = mouseY;
+    let cursorActive = false;
 
-    window.addEventListener('mousemove', (e) => {
+    const handlePointerMove = (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-    });
+        if (!cursorActive) {
+            cursorActive = true;
+            if (cursorDot) cursorDot.style.opacity = '1';
+            if (cursorGlow) cursorGlow.style.opacity = '1';
+        }
+    };
 
-    // Animate custom cursor with smoothing inertia
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('pointermove', handlePointerMove);
+
+    // Animate custom cursor with liquid smoothing inertia
     function animateCursor() {
-        const dotSpeed = 0.3;
-        const glowSpeed = 0.12;
+        const dotSpeed = 0.35;
+        const glowSpeed = 0.14;
 
         dotX += (mouseX - dotX) * dotSpeed;
         dotY += (mouseY - dotY) * dotSpeed;
@@ -114,19 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animateCursor();
 
-    // Hover state toggles for cursor glow
-    const hoverElements = document.querySelectorAll('a, button, .floating-card, .sim-app-btn, .magnetic-tag, .project-card, .timeline-card, input, textarea');
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
+    // Global Event Delegation for Glass Cursor Hover States & Audio Tones
+    document.addEventListener('mouseover', (e) => {
+        const target = e.target.closest('a, button, .floating-card, .sim-app-btn, .magnetic-tag, .project-card, .timeline-card, .swatch-chip, .variant-chip, .sticky-note, canvas, input, textarea, [role="button"]');
+        if (target) {
             document.body.classList.add('cursor-hovering');
-            playHoverSound();
-        });
-        el.addEventListener('mouseleave', () => {
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const target = e.target.closest('a, button, .floating-card, .sim-app-btn, .magnetic-tag, .project-card, .timeline-card, .swatch-chip, .variant-chip, .sticky-note, canvas, input, textarea, [role="button"]');
+        if (target) {
             document.body.classList.remove('cursor-hovering');
-        });
-        el.addEventListener('click', () => {
-            playClickSound();
-        });
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        const target = e.target.closest('a, button, .floating-card, .sim-app-btn, .magnetic-tag, .project-card, .timeline-card, .swatch-chip, .variant-chip, .sticky-note, canvas, [role="button"]');
+        if (target) {
+            if (typeof playClickSound === 'function') playClickSound();
+        }
     });
 
     // 2. HERO PARALLAX & TILT SYSTEM
@@ -628,7 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (projectCards && projectModal && closeProjectModalBtn && projectModalContent) {
         projectCards.forEach(card => {
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                // Prevent modal opening if clicking inside interactive widget controls
+                if (e.target.closest('canvas, button, .swatch-chip, .variant-chip, .sticky-note, .ruler-card-body')) {
+                    return;
+                }
+
                 const projectId = card.getAttribute('data-project-id');
                 const project = PROJECTS_DATA[projectId];
 
