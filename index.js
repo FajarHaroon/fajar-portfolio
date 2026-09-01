@@ -85,25 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let dotY = mouseY;
     let glowX = mouseX;
     let glowY = mouseY;
-    let cursorActive = false;
 
-    const handlePointerMove = (e) => {
+    const updateMousePos = (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        if (!cursorActive) {
-            cursorActive = true;
-            if (cursorDot) cursorDot.style.opacity = '1';
-            if (cursorGlow) cursorGlow.style.opacity = '1';
-        }
     };
 
-    window.addEventListener('mousemove', handlePointerMove);
-    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('mousemove', updateMousePos, { passive: true });
+    window.addEventListener('pointermove', updateMousePos, { passive: true });
 
     // Animate custom cursor with liquid smoothing inertia
     function animateCursor() {
-        const dotSpeed = 0.35;
-        const glowSpeed = 0.14;
+        const dotSpeed = 0.4;
+        const glowSpeed = 0.15;
 
         dotX += (mouseX - dotX) * dotSpeed;
         dotY += (mouseY - dotY) * dotSpeed;
