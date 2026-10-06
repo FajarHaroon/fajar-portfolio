@@ -998,5 +998,263 @@ document.addEventListener('DOMContentLoaded', () => {
             rulerCoords.innerText = `X: ${x}px | Y: ${y}px`;
         });
     }
+
+    // 14. PRO DESIGNER HELPER & INTERACTION SYSTEMS
+
+    // Toast Notification Manager
+    window.showToast = (message, icon = 'fa-circle-check') => {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'toastIn 0.3s reverse ease-in forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 2400);
+    };
+
+    // Lightbox Image Viewer Modal Manager
+    window.openLightbox = (imgSrc, caption = '') => {
+        const lightbox = document.getElementById('lightboxModal');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        if (lightbox && lightboxImg) {
+            lightboxImg.src = imgSrc;
+            if (lightboxCaption) lightboxCaption.innerText = caption || 'High-Resolution Design View';
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (typeof playChimeSound === 'function') playChimeSound();
+        }
+    };
+
+    const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+    const lightboxModal = document.getElementById('lightboxModal');
+    if (lightboxCloseBtn && lightboxModal) {
+        const closeLightbox = () => {
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        lightboxCloseBtn.addEventListener('click', closeLightbox);
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) closeLightbox();
+        });
+    }
+
+    // Hero Floating Cards Lightbox Trigger
+    const floatingHeroCards = document.querySelectorAll('.floating-card');
+    floatingHeroCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const img = card.querySelector('img');
+            const tag = card.querySelector('.card-tag, .card-caption');
+            if (img) {
+                openLightbox(img.src, tag ? tag.innerText : 'Hero Design Feature');
+            }
+        });
+    });
+
+    // Glass Cursor Click Ripple Effect
+    document.addEventListener('click', (e) => {
+        const ripple = document.createElement('div');
+        ripple.className = 'cursor-click-ripple';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
+    });
+
+    // Chalkboard Palette & Templates
+    let currentChalkColor = '#ffffff';
+    const chalkColorDots = document.querySelectorAll('.chalk-color-dot');
+    chalkColorDots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            chalkColorDots.forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+            currentChalkColor = dot.getAttribute('data-color') || '#ffffff';
+            showToast(`Chalk Color set to ${currentChalkColor}`, 'fa-pen');
+        });
+    });
+
+    const chalkTmplBtns = document.querySelectorAll('.chalk-tmpl-btn');
+    chalkTmplBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            chalkTmplBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tmpl = btn.getAttribute('data-template');
+            if (chalkboardCanvas) {
+                const ctx = chalkboardCanvas.getContext('2d');
+                ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
+                ctx.strokeStyle = currentChalkColor;
+                ctx.lineWidth = 2;
+                if (tmpl === 'wireframe') {
+                    ctx.strokeRect(20, 20, 160, 90);
+                    ctx.beginPath(); ctx.arc(280, 65, 25, 0, Math.PI * 2); ctx.stroke();
+                } else if (tmpl === 'flow') {
+                    ctx.strokeRect(20, 20, 80, 40);
+                    ctx.strokeRect(140, 20, 80, 40);
+                    ctx.beginPath(); ctx.moveTo(100, 40); ctx.lineTo(140, 40); ctx.stroke();
+                }
+            }
+            showToast(`Wireframe Template: ${btn.innerText}`, 'fa-layer-group');
+        });
+    });
+
+    // Swatch Lab Format Switcher
+    let currentSwatchFmt = 'HEX';
+    const swatchFmtBtn = document.getElementById('swatchFmtBtn');
+    if (swatchFmtBtn) {
+        swatchFmtBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const formats = ['HEX', 'RGB', 'HSL'];
+            const nextIndex = (formats.indexOf(currentSwatchFmt) + 1) % formats.length;
+            currentSwatchFmt = formats[nextIndex];
+            swatchFmtBtn.innerText = currentSwatchFmt;
+
+            const chips = document.querySelectorAll('.swatch-chip');
+            chips.forEach(chip => {
+                const val = chip.getAttribute(`data-${currentSwatchFmt.toLowerCase()}`) || chip.getAttribute('data-hex');
+                chip.querySelector('.swatch-hex').innerText = val;
+            });
+            showToast(`Color Format: ${currentSwatchFmt}`, 'fa-palette');
+        });
+    }
+
+    // Matrix Telemetry Re-scramble
+    const reScrambleBtn = document.getElementById('reScrambleBtn');
+    if (reScrambleBtn) {
+        reScrambleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerScramble(scrambleTitle);
+            triggerScramble(scrambleDesc);
+            const tick = document.getElementById('matrixTick');
+            if (tick) tick.innerText = `REQ/S: ${Math.floor(Math.random() * 800 + 1200)}`;
+            showToast('Telemetry Data Re-Scrambled', 'fa-terminal');
+        });
+    }
+
+    // Figma Spec Code Switcher
+    const figmaSpecCode = document.getElementById('figmaSpecCode');
+    const specMap = {
+        'default': 'padding: 10px 20px | radius: 10px | bg: #4F46E5',
+        'hover': 'padding: 10px 20px | radius: 10px | bg: #A246F0 | scale: 1.05',
+        'active': 'padding: 10px 20px | radius: 10px | bg: #00F0FF | scale: 0.95',
+        'disabled': 'padding: 10px 20px | radius: 10px | bg: #3F3F46 | cursor: not-allowed'
+    };
+    if (variantChips && figmaSpecCode) {
+        variantChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const state = chip.getAttribute('data-state');
+                if (specMap[state]) figmaSpecCode.innerText = specMap[state];
+                showToast(`Figma Variant: ${state.toUpperCase()}`, 'fa-brands fa-figma');
+            });
+        });
+    }
+
+    // Add Dynamic Sticky Task
+    const addStickyBtn = document.getElementById('addStickyBtn');
+    const stickyStack = document.getElementById('stickyStack');
+    const stickyProgress = document.getElementById('stickyProgress');
+
+    const updateStickyProgress = () => {
+        if (!stickyStack || !stickyProgress) return;
+        const all = stickyStack.querySelectorAll('.sticky-note');
+        const completed = stickyStack.querySelectorAll('.sticky-note.completed');
+        stickyProgress.innerText = `${completed.length} / ${all.length} Completed`;
+    };
+
+    if (addStickyBtn && stickyStack) {
+        addStickyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const taskText = prompt("Enter new UX Sprint Task:", "Design System Audit");
+            if (taskText) {
+                const colors = ['note-yellow', 'note-purple', 'note-cyan'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                const note = document.createElement('div');
+                note.className = `sticky-note ${randomColor}`;
+                note.innerHTML = `<span class="sticky-check">○</span><span class="sticky-text">${taskText}</span>`;
+                note.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    note.classList.toggle('completed');
+                    note.querySelector('.sticky-check').innerText = note.classList.contains('completed') ? '✓' : '○';
+                    updateStickyProgress();
+                    if (typeof playClickSound === 'function') playClickSound();
+                });
+                stickyStack.appendChild(note);
+                updateStickyProgress();
+                showToast(`Task Added: ${taskText}`, 'fa-note-sticky');
+            }
+        });
+    }
+
+    // Kinetic Marquee Controls
+    const marqueePauseBtn = document.getElementById('marqueePauseBtn');
+    const marqueeSpeedBtn = document.getElementById('marqueeSpeedBtn');
+    const marqueeContent = document.getElementById('marqueeContent');
+    let isMarqueePaused = false;
+    let isMarqueeFast = false;
+
+    if (marqueePauseBtn && marqueeContent) {
+        marqueePauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isMarqueePaused = !isMarqueePaused;
+            marqueeContent.style.animationPlayState = isMarqueePaused ? 'paused' : 'running';
+            marqueePauseBtn.innerHTML = isMarqueePaused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+            showToast(isMarqueePaused ? 'Marquee Paused' : 'Marquee Playing', 'fa-wand-magic-sparkles');
+        });
+    }
+
+    if (marqueeSpeedBtn && marqueeContent) {
+        marqueeSpeedBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isMarqueeFast = !isMarqueeFast;
+            marqueeContent.style.animationDuration = isMarqueeFast ? '5s' : '12s';
+            marqueeSpeedBtn.innerText = isMarqueeFast ? '⚡ 3x' : '⚡ 1x';
+            showToast(isMarqueeFast ? 'Marquee Speed: 3x' : 'Marquee Speed: 1x', 'fa-bolt');
+        });
+    }
+
+    const fontChips = document.querySelectorAll('.font-chip');
+    fontChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fontChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const font = chip.getAttribute('data-font');
+            if (marqueeContent) marqueeContent.style.fontFamily = font;
+            showToast(`Typography set to ${font}`, 'fa-font');
+        });
+    });
+
+    // Holographic Glitch 3D Tilt & Glitch Trigger
+    const glitchCard = document.getElementById('glitchCard');
+    const glitchFoil = document.getElementById('glitchFoil');
+    const triggerGlitchBtn = document.getElementById('triggerGlitchBtn');
+    const glitchTitleText = document.getElementById('glitchTitleText');
+
+    if (glitchCard && glitchFoil) {
+        glitchCard.addEventListener('mousemove', (e) => {
+            const rect = glitchCard.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            glitchFoil.style.transform = `rotate(${25 + x * 30}deg) translate(${x * 40}px, ${y * 40}px)`;
+        });
+    }
+
+    if (triggerGlitchBtn && glitchTitleText) {
+        triggerGlitchBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerScramble(glitchTitleText);
+            glitchTitleText.style.animation = 'none';
+            setTimeout(() => {
+                glitchTitleText.style.animation = 'glitchText 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both';
+            }, 10);
+            showToast('Glitch Effect Triggered!', 'fa-bolt');
+        });
+    }
 });
 

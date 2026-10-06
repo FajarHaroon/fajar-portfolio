@@ -279,16 +279,29 @@
                 <!-- Card 1: Blackboard Wireframe Canvas (Shikayat.pk) -->
                 <div class="project-card designer-widget-card card-chalkboard" data-category="uiux" data-project-id="shikayat">
                     <div class="widget-card-header">
-                        <span class="widget-badge"><i class="fa-solid fa-pen-ruler"></i> Interactive Blackboard</span>
-                        <button class="clear-chalk-btn" id="clearChalkBtn" title="Erase Chalkboard"><i class="fa-solid fa-eraser"></i> Erase</button>
+                        <span class="widget-badge"><i class="fa-solid fa-pen-ruler"></i> Interactive Chalkboard</span>
+                        <div class="chalk-controls-header">
+                            <div class="chalk-color-palette">
+                                <span class="chalk-color-dot active" data-color="#ffffff" style="background:#ffffff;" title="White Chalk"></span>
+                                <span class="chalk-color-dot" data-color="#00f0ff" style="background:#00f0ff;" title="Cyan Chalk"></span>
+                                <span class="chalk-color-dot" data-color="#a246f0" style="background:#a246f0;" title="Purple Chalk"></span>
+                                <span class="chalk-color-dot" data-color="#fef08a" style="background:#fef08a;" title="Yellow Chalk"></span>
+                            </div>
+                            <button class="clear-chalk-btn" id="clearChalkBtn" title="Erase Chalkboard"><i class="fa-solid fa-eraser"></i> Clear</button>
+                        </div>
                     </div>
                     <div class="chalkboard-canvas-container">
                         <canvas id="chalkboardCanvas" width="450" height="220"></canvas>
                         <div class="chalkboard-overlay-text">
-                            <span class="chalk-subtitle">CHALKBOARD WIREFRAME</span>
+                            <span class="chalk-subtitle">UX WIREFRAME BOARD</span>
                             <h3 class="chalk-title">Shikayat.pk Portal</h3>
-                            <p class="chalk-hint">✍️ Drag mouse to draw with chalk on board!</p>
+                            <p class="chalk-hint">✍️ Click & drag to sketch UI wireframes!</p>
                         </div>
+                    </div>
+                    <div class="chalk-template-chips">
+                        <button class="chalk-tmpl-btn active" data-template="wireframe">Wireframe Box</button>
+                        <button class="chalk-tmpl-btn" data-template="flow">User Journey</button>
+                        <button class="chalk-tmpl-btn" data-template="blank">Blank Slate</button>
                     </div>
                     <div class="widget-card-footer">
                         <span class="project-category">UI/UX & Consumer Protection</span>
@@ -300,27 +313,30 @@
                 <div class="project-card designer-widget-card card-color-swatch" data-category="uiux" data-project-id="eduapply">
                     <div class="widget-card-header">
                         <span class="widget-badge"><i class="fa-solid fa-palette"></i> Design System Swatches</span>
-                        <span class="widget-action-hint">Click Hex to Copy</span>
+                        <div class="swatch-header-controls">
+                            <button class="swatch-fmt-btn" id="swatchFmtBtn">HEX</button>
+                            <span class="contrast-badge"><i class="fa-solid fa-circle-check"></i> AAA 14.2:1</span>
+                        </div>
                     </div>
                     <div class="swatch-card-body">
                         <div class="swatch-headline">
                             <span class="project-category">EduApply.com</span>
-                            <h3>International Admissions System</h3>
+                            <h3>International Admissions Portal</h3>
                         </div>
                         <div class="swatches-grid">
-                            <div class="swatch-chip" data-hex="#4F46E5" style="background: #4F46E5;">
+                            <div class="swatch-chip" data-hex="#4F46E5" data-rgb="rgb(79, 70, 229)" data-hsl="hsl(243, 75%, 59%)" style="background: #4F46E5;">
                                 <span class="swatch-name">Edu Blue</span>
                                 <span class="swatch-hex">#4F46E5</span>
                             </div>
-                            <div class="swatch-chip" data-hex="#A246F0" style="background: #A246F0;">
+                            <div class="swatch-chip" data-hex="#A246F0" data-rgb="rgb(162, 70, 240)" data-hsl="hsl(272, 85%, 61%)" style="background: #A246F0;">
                                 <span class="swatch-name">Purple Glow</span>
                                 <span class="swatch-hex">#A246F0</span>
                             </div>
-                            <div class="swatch-chip" data-hex="#00F0FF" style="background: #00F0FF; color: #000;">
+                            <div class="swatch-chip" data-hex="#00F0FF" data-rgb="rgb(0, 240, 255)" data-hsl="hsl(184, 100%, 50%)" style="background: #00F0FF; color: #000;">
                                 <span class="swatch-name">Cyan Accent</span>
                                 <span class="swatch-hex">#00F0FF</span>
                             </div>
-                            <div class="swatch-chip" data-hex="#0E0A18" style="background: #0E0A18; border: 1px solid #332454;">
+                            <div class="swatch-chip" data-hex="#0E0A18" data-rgb="rgb(14, 10, 24)" data-hsl="hsl(264, 41%, 7%)" style="background: #0E0A18; border: 1px solid #332454;">
                                 <span class="swatch-name">Deep Void</span>
                                 <span class="swatch-hex">#0E0A18</span>
                             </div>
@@ -340,17 +356,20 @@
                 <div class="project-card designer-widget-card card-matrix" data-category="uiux" data-project-id="crm">
                     <div class="widget-card-header">
                         <span class="widget-badge"><i class="fa-solid fa-terminal"></i> Telemetry Scramble</span>
-                        <span class="matrix-status-dot">● LIVE DATA</span>
+                        <button class="re-scramble-btn" id="reScrambleBtn" title="Re-scramble Data"><i class="fa-solid fa-arrows-rotate"></i> Decode</button>
                     </div>
                     <div class="matrix-card-body">
                         <div class="matrix-scramble-container">
-                            <span class="matrix-label">DECODER ACTIVE</span>
+                            <div class="matrix-top-bar">
+                                <span class="matrix-label">DECODER ACTIVE</span>
+                                <span class="matrix-live-tick" id="matrixTick">REQ/S: 1,482</span>
+                            </div>
                             <h3 class="scramble-title" id="crmScrambleTitle">CRM Board System</h3>
                             <p class="scramble-desc" id="crmScrambleDesc">All-in-one business intelligence and sales performance pipeline dashboard.</p>
                         </div>
                         <div class="matrix-stats-row">
                             <div class="m-stat">
-                                <span class="m-stat-val">600%</span>
+                                <span class="m-stat-val" id="statRoi">600%</span>
                                 <span class="m-stat-lbl">ROI Boost</span>
                             </div>
                             <div class="m-stat">
@@ -358,7 +377,7 @@
                                 <span class="m-stat-lbl">API Modules</span>
                             </div>
                             <div class="m-stat">
-                                <span class="m-stat-val">4k+</span>
+                                <span class="m-stat-val" id="statClients">4,280</span>
                                 <span class="m-stat-lbl">Global Clients</span>
                             </div>
                         </div>
@@ -376,8 +395,11 @@
                         <span class="variant-active-tag" id="variantStateLabel">Active: Hover</span>
                     </div>
                     <div class="figma-widget-body">
-                        <span class="figma-comp-label">Component: #EduApply-Button-Primary</span>
-                        <div class="figma-preview-stage">
+                        <div class="figma-spec-row">
+                            <span class="figma-comp-label">#EduApply-Button-Primary</span>
+                            <span class="figma-spec-code" id="figmaSpecCode">padding: 10px 20px; radius: 10px</span>
+                        </div>
+                        <div class="figma-preview-stage" id="figmaStage">
                             <button class="figma-demo-btn state-hover" id="figmaDemoBtn">
                                 <span class="figma-btn-icon"><i class="fa-solid fa-graduation-cap"></i></span>
                                 <span class="figma-btn-text">APPLY NOW // V2.4</span>
@@ -400,11 +422,14 @@
                 <div class="project-card designer-widget-card card-sticky-notes" data-category="uiux" data-project-id="health">
                     <div class="widget-card-header">
                         <span class="widget-badge"><i class="fa-solid fa-note-sticky"></i> UX Sprint Kanban</span>
-                        <span class="sticky-hint">Tap Tasks to Complete</span>
+                        <button class="add-sticky-btn" id="addStickyBtn" title="Add Sprint Task">+ Task</button>
                     </div>
                     <div class="sticky-board-body">
-                        <h3>Health & Fitness App</h3>
-                        <div class="sticky-notes-stack">
+                        <div class="sticky-board-header">
+                            <h3>Health & Fitness App</h3>
+                            <span class="sticky-progress-tag" id="stickyProgress">1 / 3 Completed</span>
+                        </div>
+                        <div class="sticky-notes-stack" id="stickyStack">
                             <div class="sticky-note note-yellow completed">
                                 <span class="sticky-check">✓</span>
                                 <span class="sticky-text">Calorie Tracker Wireframes</span>
@@ -456,14 +481,22 @@
                 <div class="project-card designer-widget-card card-kinetic-marquee" data-category="graphic" data-project-id="gitex">
                     <div class="widget-card-header">
                         <span class="widget-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Kinetic Type & Motion</span>
-                        <span class="marquee-hint">Hover to Accelerate</span>
+                        <div class="marquee-controls-header">
+                            <button class="marquee-ctrl-btn" id="marqueePauseBtn" title="Pause / Play Marquee"><i class="fa-solid fa-pause"></i></button>
+                            <button class="marquee-ctrl-btn" id="marqueeSpeedBtn" title="Speed Toggle">⚡ 2x</button>
+                        </div>
                     </div>
                     <div class="kinetic-marquee-body">
                         <div class="marquee-track" id="marqueeTrack">
-                            <div class="marquee-content">
+                            <div class="marquee-content" id="marqueeContent">
                                 <span>GITEX AI KAZAKHSTAN ★ EXPO VISUALS ★ BRANDING IN MOTION ★ DUOTONE NEON ★</span>
                                 <span>GITEX AI KAZAKHSTAN ★ EXPO VISUALS ★ BRANDING IN MOTION ★ DUOTONE NEON ★</span>
                             </div>
+                        </div>
+                        <div class="marquee-font-chips">
+                            <button class="font-chip active" data-font="Outfit">Outfit</button>
+                            <button class="font-chip" data-font="Syne">Syne</button>
+                            <button class="font-chip" data-font="Courier New">Monospace</button>
                         </div>
                         <div class="marquee-footer-info">
                             <h3>GITEX AI Expo Visuals</h3>
@@ -477,16 +510,16 @@
                 </div>
 
                 <!-- Card 8: Holographic Glitch Spec (Automechanika Dubai Prints) -->
-                <div class="project-card designer-widget-card card-glitch-spec" data-category="graphic" data-project-id="automechanika">
+                <div class="project-card designer-widget-card card-glitch-spec" data-category="graphic" data-project-id="automechanika" id="glitchCard">
                     <div class="widget-card-header">
-                        <span class="widget-badge"><i class="fa-solid fa-microchip"></i> Holographic Spec</span>
-                        <span class="glitch-hint">Interactive Glitch</span>
+                        <span class="widget-badge"><i class="fa-solid fa-microchip"></i> Holographic 3D Tilt</span>
+                        <button class="trigger-glitch-btn" id="triggerGlitchBtn" title="Trigger Glitch Animation">⚡ GLITCH</button>
                     </div>
                     <div class="glitch-card-body">
-                        <div class="glitch-foil-layer"></div>
+                        <div class="glitch-foil-layer" id="glitchFoil"></div>
                         <div class="glitch-front-content">
                             <span class="glitch-tag">TRADE SHOW PRINT MEDIA</span>
-                            <h3 class="glitch-title" data-text="Automechanika Dubai">Automechanika Dubai</h3>
+                            <h3 class="glitch-title" id="glitchTitleText" data-text="Automechanika Dubai">Automechanika Dubai</h3>
                             <p>Over 10,000 prints, visitor guides, custom tote bags, and exhibit catalogs.</p>
                         </div>
                     </div>
@@ -699,6 +732,20 @@
             <div class="project-modal-content" id="projectModalContent">
                 <!-- Loaded dynamically by JS -->
             </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Fullscreen Image Lightbox Viewer Modal -->
+    <div class="lightbox-overlay" id="lightboxModal">
+        <div class="lightbox-wrapper">
+            <button class="lightbox-close" id="lightboxCloseBtn">&times;</button>
+            <div class="lightbox-image-frame">
+                <img src="" alt="Design Mockup Fullscreen View" id="lightboxImg">
+            </div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
 
