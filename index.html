@@ -47,17 +47,17 @@
                 <a href="#contact" class="nav-link" data-section="contact">CONTACT</a>
             </nav>
 
-            <!-- Play Pitch Button & Audio Control -->
+            <!-- LinkedIn Header CTA Button & Audio Control -->
             <div class="header-actions">
                 <button class="sfx-toggle-btn" id="sfxToggle" title="Toggle SFX Player">
                     <i class="fa-solid fa-volume-high"></i>
                 </button>
-                <button class="pitch-btn" id="pitchBtn">
-                    <span>PLAY 120-SECONDS PITCH</span>
+                <a href="https://www.linkedin.com/in/fajarharoon/" target="_blank" class="pitch-btn" id="linkedinHeaderBtn">
+                    <span>FAJAR HAROON</span>
                     <div class="play-icon-circle">
-                        <i class="fa-solid fa-play"></i>
+                        <i class="fa-brands fa-linkedin-in"></i>
                     </div>
-                </button>
+                </a>
             </div>
         </div>
     </header>
@@ -74,38 +74,42 @@
                 <h1 class="hero-word word-design">DESIGNER</h1>
             </div>
 
-            <!-- Floating Interactive Visual Cards -->
+            <!-- Floating Interactive Visual Cards (LinkedIn Topic Carousels) -->
             <div class="hero-cards-container" id="heroCardsContainer">
                 
-                <!-- Voxel Chameleon Mascot Card -->
-                <div class="floating-card card-chameleon" data-depth="0.15">
-                    <div class="card-inner">
-                        <img src="assets/chameleon.jpg" alt="Voxel Chameleon Mascot">
-                        <div class="card-tag">CREATIVE MASCOT</div>
+                <!-- Topic 1: Brutalism vs. Minimalism -->
+                <div class="floating-card card-topic card-brutalism" data-depth="0.15" data-topic="brutalism">
+                    <div class="card-inner topic-card-inner">
+                        <div class="topic-icon"><i class="fa-solid fa-shapes"></i></div>
+                        <h4 class="topic-title">Brutalism vs. Minimalism</h4>
+                        <div class="card-tag">LINKEDIN CAROUSEL <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
                     </div>
                 </div>
 
-                <!-- App Interface Card -->
-                <div class="floating-card card-mobile-ui" data-depth="0.25">
-                    <div class="card-inner">
-                        <img src="assets/mobile_ui.jpg" alt="Mobile UI App Mockup">
-                        <div class="card-tag">HEALTH APP UI</div>
+                <!-- Topic 2: Colour Psychology -->
+                <div class="floating-card card-topic card-colour" data-depth="0.25" data-topic="colour">
+                    <div class="card-inner topic-card-inner">
+                        <div class="topic-icon"><i class="fa-solid fa-palette"></i></div>
+                        <h4 class="topic-title">Colour Psychology</h4>
+                        <div class="card-tag">LINKEDIN CAROUSEL <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
                     </div>
                 </div>
 
-                <!-- Polaroid Architecture Card -->
-                <div class="floating-card card-polaroid" data-depth="0.08">
-                    <div class="card-inner">
-                        <img src="assets/polaroid.jpg" alt="Polaroid Design Vibe">
-                        <div class="card-caption">Aesthetic Vibe // Rawalpindi</div>
+                <!-- Topic 3: AI in the Design Process -->
+                <div class="floating-card card-topic card-aidesign" data-depth="0.08" data-topic="aidesign">
+                    <div class="card-inner topic-card-inner">
+                        <div class="topic-icon"><i class="fa-solid fa-robot"></i></div>
+                        <h4 class="topic-title">AI in Design Process</h4>
+                        <div class="card-tag">LINKEDIN CAROUSEL <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
                     </div>
                 </div>
 
-                <!-- Merch Showcase Card -->
-                <div class="floating-card card-totebag" data-depth="0.2">
-                    <div class="card-inner">
-                        <img src="assets/totebag.jpg" alt="Tote Bag Branding Mockup">
-                        <div class="card-tag">BRAND MERCH</div>
+                <!-- Topic 4: Creativity Paradox -->
+                <div class="floating-card card-topic card-paradox" data-depth="0.2" data-topic="paradox">
+                    <div class="card-inner topic-card-inner">
+                        <div class="topic-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h4 class="topic-title">Creativity Paradox</h4>
+                        <div class="card-tag">LINKEDIN CAROUSEL <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
                     </div>
                 </div>
 
@@ -116,6 +120,8 @@
                     </div>
                 </div>
                 
+            </div>
+
             <div class="hero-scroll-indicator">
                 <span>SCROLL TO ENTER PORTAL</span>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -132,27 +138,32 @@
 
             <div class="playground-bento-grid">
                 
-                <!-- Bento Card 1: Before/After Redesign Slider -->
-                <div class="bento-card bento-slider-widget">
+                <!-- Bento Card 1: Magic Palette Color Combination Generator -->
+                <div class="bento-card bento-magic-palette">
                     <div class="bento-card-header">
-                        <i class="fa-solid fa-sliders"></i>
-                        <span>Before & After Redesign</span>
+                        <i class="fa-solid fa-palette"></i>
+                        <span>Magic Palette Generator</span>
+                        <button class="palette-gen-btn" id="generatePaletteBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
                     </div>
-                    <div class="before-after-container" id="beforeAfterSlider">
-                        <div class="before-image-layer">
-                            <div class="slider-label label-before">OLD SYSTEM</div>
-                        </div>
-                        <div class="after-image-layer" id="afterImageLayer">
-                            <div class="slider-label label-after">FAJAR'S REDESIGN</div>
-                        </div>
-                        <input type="range" min="0" max="100" value="50" class="slider-input" id="sliderRange">
-                        <div class="slider-handle" id="sliderHandle">
-                            <i class="fa-solid fa-left-right"></i>
-                        </div>
+                    <div class="magic-palette-stage" id="magicPaletteStage">
+                        <div class="color-bar-col" style="background: #a246f0;" data-hex="#A246F0"><span class="color-hex">#A246F0</span><span class="color-role">Dominant</span></div>
+                        <div class="color-bar-col" style="background: #00f0ff; color: #000;" data-hex="#00F0FF"><span class="color-hex">#00F0FF</span><span class="color-role">Cyan Glow</span></div>
+                        <div class="color-bar-col" style="background: #7c3aed;" data-hex="#7C3AED"><span class="color-hex">#7C3AED</span><span class="color-role">Deep Violet</span></div>
+                        <div class="color-bar-col" style="background: #ec4899;" data-hex="#EC4899"><span class="color-hex">#EC4899</span><span class="color-role">Accent</span></div>
+                        <div class="color-bar-col" style="background: #10b981;" data-hex="#10B981"><span class="color-hex">#10B981</span><span class="color-role">Vibe</span></div>
+                    </div>
+                    <div class="palette-harmony-modes">
+                        <button class="harmony-chip active" data-mode="auto">Auto</button>
+                        <button class="harmony-chip" data-mode="mono">Mono</button>
+                        <button class="harmony-chip" data-mode="analogous">Analogous</button>
+                        <button class="harmony-chip" data-mode="complementary">Complementary</button>
+                        <button class="harmony-chip" data-mode="split">Split</button>
+                        <button class="harmony-chip" data-mode="triadic">Triadic</button>
+                        <button class="harmony-chip" data-mode="tetradic">Tetradic</button>
                     </div>
                     <div class="bento-card-body">
-                        <h4>DevGate Health App Interface</h4>
-                        <p>Slide to compare the legacy tracking system against our sleek dark-mode dashboard overhaul.</p>
+                        <h4>Color Harmony Spec Generator</h4>
+                        <p>Select a mode button or press space to output harmonious color palettes. Click any hex code to copy.</p>
                     </div>
                 </div>
 
@@ -177,37 +188,25 @@
                     </div>
                 </div>
 
-                <!-- Bento Card 3: Interactive Phone Screen App Simulator -->
-                <div class="bento-card bento-app-simulator">
+                <!-- Bento Card 3: Design Terms Puzzle Game -->
+                <div class="bento-card bento-design-puzzle">
                     <div class="bento-card-header">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span>Interactive Prototype Simulator</span>
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                        <span>Design Terms Puzzle</span>
+                        <span class="puzzle-score-badge" id="puzzleScore">Score: 0 / 5</span>
                     </div>
-                    <div class="phone-simulator-frame">
-                        <div class="phone-screen-container">
-                            <div class="phone-screen-image-wrapper">
-                                <img src="assets/mobile_ui.jpg" alt="Active Prototype Screen" id="phoneScreenImg">
-                            </div>
-                            <div class="phone-home-indicator"></div>
+                    <div class="puzzle-game-container" id="puzzleContainer">
+                        <div class="puzzle-question-box">
+                            <span class="puzzle-term-prompt" id="puzzleTermPrompt">TERM: KERNING</span>
+                            <p class="puzzle-desc-text" id="puzzleDescText">Select the correct UI/UX definition:</p>
                         </div>
-                        <div class="simulator-controls">
-                            <button class="sim-app-btn active" data-img="assets/mobile_ui.jpg" title="Health & Fitness App">
-                                <i class="fa-solid fa-heart-pulse"></i>
-                                <span>Health</span>
-                            </button>
-                            <button class="sim-app-btn" data-img="assets/totebag.jpg" title="E-Banking App Concept">
-                                <i class="fa-solid fa-wallet"></i>
-                                <span>Banking</span>
-                            </button>
-                            <button class="sim-app-btn" data-img="assets/chameleon.jpg" title="Mascot Project">
-                                <i class="fa-solid fa-ghost"></i>
-                                <span>Mascot</span>
-                            </button>
+                        <div class="puzzle-options-grid" id="puzzleOptions">
+                            <!-- Populated dynamically by JS -->
                         </div>
                     </div>
                     <div class="bento-card-body">
-                        <h4>Instant Visual Swapper</h4>
-                        <p>Tap the app icons to cycle through high-resolution mockups inside the mobile screen simulator.</p>
+                        <h4>Interactive UX Term Quiz</h4>
+                        <p>Match design terminology to definitions and test your UX vocabulary!</p>
                     </div>
                 </div>
 
@@ -439,10 +438,10 @@
                     </div>
                 </div>
 
-                <!-- Card 6: Pixel Spec Crosshair Ruler (E-Banking App Concept) -->
-                <div class="project-card designer-widget-card card-pixel-ruler" data-category="uiux" data-project-id="ebanking">
+                <!-- Card 6: Shopezo E-Commerce Portal -->
+                <div class="project-card designer-widget-card card-pixel-ruler" data-category="uiux" data-project-id="shopezo">
                     <div class="widget-card-header">
-                        <span class="widget-badge"><i class="fa-solid fa-ruler-combined"></i> Pixel Spec Crosshairs</span>
+                        <span class="widget-badge"><i class="fa-solid fa-cart-shopping"></i> E-Commerce Spec Lab</span>
                         <span class="coords-display" id="rulerCoords">X: 240px | Y: 120px</span>
                     </div>
                     <div class="ruler-card-body" id="rulerBody">
@@ -451,12 +450,11 @@
                         <div class="ruler-crosshair-h" id="rulerH"></div>
                         <div class="ruler-crosshair-v" id="rulerV"></div>
                         <div class="ruler-content">
-                            <span class="ruler-sub">HIGH-CONTRAST MOBILE</span>
-                            <h3>E-Banking App Concept</h3>
+                            <h3>Shopezo E-Commerce Portal</h3>
                             <div class="spec-pills-row">
                                 <span class="spec-pill">Radius: 20px</span>
                                 <span class="spec-pill">Padding: 16px</span>
-                                <span class="spec-pill">Contrast: 7.5:1 AAA</span>
+                                <span class="spec-pill">Checkout UI</span>
                             </div>
                         </div>
                     </div>
@@ -488,7 +486,6 @@
                         </div>
                         <div class="marquee-footer-info">
                             <h3>GITEX AI Expo Visuals</h3>
-                            <p>International expo print graphics, vector masons, and high-impact event signage.</p>
                         </div>
                     </div>
                     <div class="widget-card-footer">
@@ -507,7 +504,6 @@
                         <div class="glitch-front-content">
                             <span class="glitch-tag">TRADE SHOW PRINT MEDIA</span>
                             <h3 class="glitch-title" id="glitchTitleText" data-text="Automechanika Dubai">Automechanika Dubai</h3>
-                            <p>Over 10,000 prints, visitor guides, custom tote bags, and exhibit catalogs.</p>
                         </div>
                     </div>
                     <div class="widget-card-footer">
@@ -537,11 +533,11 @@
                             <span class="job-company">Broomstick Creative (UAE)</span>
                         </div>
                         <h3>Static Graphic Designer</h3>
-                        <p class="job-summary">Producing premium visual media for international expositions and maintain global brand cohesion.</p>
+                        <p class="job-summary">Producing premium visual media for international expositions and maintaining global brand cohesion.</p>
                         <div class="job-details" id="detail-time1">
                             <ul>
                                 <li>Design print media and static social graphics.</li>
-                                <li>Create non-animated visual assets and advertising layouts.</li>
+                                <li>Create visual assets and advertising layouts for global trade shows.</li>
                                 <li>Crafted event graphics for Automechanika Dubai and GITEX AI Kazakhstan.</li>
                                 <li>Collaborate across design layers to maintain strict brand standards.</li>
                             </ul>
@@ -578,7 +574,7 @@
                             <span class="job-duration">Dec 2023 - Mar 2024</span>
                             <span class="job-company">InoTech Solution</span>
                         </div>
-                        <h3>UI/UX Designer (Intern)</h3>
+                        <h3>UI/UX Designer</h3>
                         <p class="job-summary">Designed consumer websites and public utility tracking portals.</p>
                         <div class="job-details" id="detail-time3">
                             <ul>
@@ -598,12 +594,12 @@
                             <span class="job-duration">Sept 2023 - Nov 2023</span>
                             <span class="job-company">DevGate Consultancy</span>
                         </div>
-                        <h3>UI/UX Designer (Intern)</h3>
+                        <h3>UI/UX Designer</h3>
                         <p class="job-summary">Designed key software products from mobile trackers to scanning utilities.</p>
                         <div class="job-details" id="detail-time4">
                             <ul>
                                 <li>Designed workout schedules, calorie count meters, and reports for a Health & Fitness app.</li>
-                                <li>Engineered flows and screens for a streamlined secure E-Banking app concept.</li>
+                                <li>Engineered flows and screens for Shopezo e-commerce portal and digital products.</li>
                                 <li>Designed a clean, minimalist user interface for a PDF Scanner application.</li>
                             </ul>
                         </div>
@@ -732,6 +728,45 @@
                 <img src="" alt="Design Mockup Fullscreen View" id="lightboxImg">
             </div>
             <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
+
+    <!-- Interactive LinkedIn Carousel Post Modal -->
+    <div class="modal-overlay" id="linkedinModal">
+        <div class="modal-card linkedin-modal-card">
+            <button class="close-modal-btn" id="closeLinkedinModalBtn">&times;</button>
+            <div class="linkedin-modal-header">
+                <div class="linkedin-author-info">
+                    <img src="assets/fajar_portrait.png" alt="Fajar Haroon" class="linkedin-avatar">
+                    <div class="linkedin-author-details">
+                        <div class="author-name-row">
+                            <h3>Fajar Haroon</h3>
+                            <span class="badge-degree">• 1st</span>
+                        </div>
+                        <p class="author-bio">UX/UI & Brand Designer | Software Engineer</p>
+                        <span class="post-timestamp">Featured LinkedIn Carousel Post • <i class="fa-solid fa-earth-americas"></i></span>
+                    </div>
+                </div>
+                <a href="https://www.linkedin.com/in/fajarharoon/" target="_blank" class="linkedin-follow-btn">
+                    <i class="fa-brands fa-linkedin"></i> Follow
+                </a>
+            </div>
+            
+            <div class="linkedin-carousel-view" id="linkedinCarouselView">
+                <!-- Carousel Slide Content dynamically rendered by JS -->
+            </div>
+
+            <div class="linkedin-carousel-footer">
+                <div class="carousel-nav-controls">
+                    <button class="carousel-nav-btn" id="prevSlideBtn" title="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-nav-btn" id="nextSlideBtn" title="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <a href="#" target="_blank" class="view-post-btn" id="viewOriginalPostBtn">
+                    <span>VIEW ORIGINAL LINKEDIN POST</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
         </div>
     </div>
 

@@ -179,15 +179,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Floating Hero Cards Lightbox Trigger
+    // Floating Hero Cards Lightbox & LinkedIn Carousel Trigger
     const floatingHeroCards = document.querySelectorAll('.floating-card');
     floatingHeroCards.forEach(card => {
         card.addEventListener('click', (e) => {
             e.stopPropagation();
-            const img = card.querySelector('img');
-            const tag = card.querySelector('.card-tag, .card-caption');
-            if (img) {
-                openLightbox(img.src, tag ? tag.innerText : 'Hero Design Feature');
+            const topic = card.getAttribute('data-topic');
+            if (topic && LINKEDIN_TOPICS_DATA[topic]) {
+                activeTopicKey = topic;
+                currentSlideIndex = 0;
+                if (typeof renderLinkedinSlide === 'function') renderLinkedinSlide();
+                const linkedinModal = document.getElementById('linkedinModal');
+                if (linkedinModal) {
+                    linkedinModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    if (typeof playChimeSound === 'function') playChimeSound();
+                }
+            } else {
+                const img = card.querySelector('img');
+                if (img) openLightbox(img.src, 'Fajar Haroon - Portrait View');
             }
         });
     });
@@ -497,6 +507,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'eduapply': {
             title: 'EduApply.com Portal',
             category: 'UI/UX Design & Web',
+        'eduapply': {
+            title: 'EduApply.com Portal',
             client: 'EduApply.com',
             role: 'Lead UI/UX Designer',
             duration: '3 Months (2026)',
@@ -510,82 +522,63 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'shikayat': {
             title: 'Shikayat.pk Portal',
-            category: 'UI/UX Design & Web',
             client: 'InoTech Solution',
-            role: 'UI/UX Design Intern',
+            role: 'UI/UX Designer',
             duration: 'Dec 2023 - Mar 2024',
             tools: ['Figma', 'User Research', 'Wireframing', 'Responsive Design', 'HTML/CSS'],
-            url: 'https://shikayat.pk',
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2742-324',
             img: 'assets/shikayat_full.png',
-            overview: 'Shikayat.pk is a public portal designed to bridge the trust gap between consumers and brands.',
-            problem: 'Traditional consumer protection methods were slow and lacked visibility.',
-            solution: 'Created a structured categories explorer, verified complaint filing wizard, and brand responsiveness timeline.',
-            results: 'Helped resolve over 1,200 consumer complaints in the first three months of launch.'
+            overview: 'Shikayat.pk is a comprehensive public consumer complaint resolution platform designed to bridge trust gaps between consumers and brands across Pakistan.',
+            problem: 'Traditional consumer grievance redressing was fragmented, unmonitored, and lacked real-time visibility for consumers.',
+            solution: 'Engineered an intuitive complaint tracking wizard, structured category browsing, and an interactive brand accountability timeline.',
+            results: 'Resolved over 1,200 consumer complaints in the first quarter, improving consumer trust and response timelines.'
         },
         'crm': {
             title: 'CRM Board System',
-            category: 'SaaS UI/UX Design',
             client: 'SaaS Platform Client',
-            role: 'Lead Designer',
-            duration: '2 Months (2026)',
-            tools: ['Figma', 'SaaS Design', 'Dashboard UX', 'Data Visualization', 'UI Components'],
-            url: 'https://crmboard.io',
-            img: 'assets/crm_full.png',
-            overview: 'A robust client relationship management (CRM) platform built for high-performance sales teams.',
-            problem: 'Sales teams were overwhelmed by complex data grids and fragmented client data.',
-            solution: 'Designed a unified SaaS layout focusing on clean dashboard card hierarchy and modern telemetry cards.',
-            results: 'Reduced average onboarding time for new sales agents by 50%.'
-        },
-        'eduapply-about': {
-            title: 'EduApply Inner Portal',
-            category: 'UI/UX Design',
-            client: 'EduApply.com',
             role: 'Lead UI/UX Designer',
-            duration: '3 Months (2026)',
-            tools: ['Figma', 'Interactive Flows', 'Global Map UX', 'UI Kits'],
-            url: 'https://eduapply.com/about',
-            img: 'assets/eduapply_about.png',
-            overview: 'The inner informational hub of the EduApply system, displaying the global connections network.',
-            problem: 'Users didn\'t understand how their data was processed or where to start their applications.',
-            solution: 'Crafted a detailed global map visual showing active recruitment corridors and customized guides.',
-            results: 'Decreased support inquiries related to application prerequisites by 35%.'
+            duration: '2 Months (2026)',
+            tools: ['Figma', 'SaaS Dashboard Design', 'Data Visualization', 'UI System Architecture'],
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2742-325',
+            img: 'assets/crm_full.png',
+            overview: 'All-in-one business intelligence and sales performance pipeline dashboard designed for high-scale enterprise operations.',
+            problem: 'Sales agents struggled with cluttered data tables, low contrast metrics, and delayed pipeline updates.',
+            solution: 'Crafted a high-contrast telemetry dashboard with interactive Kanban deal pipelines, real-time analytics widgets, and customizable agent metrics.',
+            results: 'Boosted daily sales workflow efficiency by 600% and reduced agent onboarding duration by 50%.'
+        },
+        'shopezo': {
+            title: 'Shopezo E-Commerce Portal',
+            client: 'Shopezo Retail',
+            role: 'UI/UX Designer',
+            duration: '2024',
+            tools: ['Figma', 'E-Commerce UX', 'Design System', 'Micro-interactions', 'Mobile First'],
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2394-3861',
+            img: 'assets/shopezo_full.png',
+            overview: 'A multi-brand fashion & lifestyle e-commerce portal offering a seamless, friction-free checkout journey.',
+            problem: 'High cart abandonment rates caused by complex checkout steps and sluggish mobile browsing.',
+            solution: 'Redesigned product discovery with sticky visual filters, instant visual variant pickers, and one-tap guest checkout.',
+            results: 'Elevated conversion rates by 38% and reduced checkout abandonment by 45%.'
         },
         'health': {
             title: 'Health & Fitness App',
-            category: 'UI/UX Design',
             client: 'DevGate Consultancy',
-            role: 'UI/UX Design Intern',
+            role: 'UI/UX Designer',
             duration: 'Sept 2023 - Nov 2023',
-            tools: ['Figma', 'Mobile App UX', 'Prototyping'],
-            url: '#',
+            tools: ['Figma', 'Mobile App UX', 'Calorie Tracker UI', 'Prototyping'],
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2180-4854',
             img: 'assets/mobile_ui.jpg',
-            overview: 'An intuitive mobile health companion that tracks workouts and counts daily calorie intake.',
-            problem: 'Users frequently abandoned calorie logs because manual logging was tedious.',
-            solution: 'Created a card-based mobile UI design featuring rapid one-tap barcode scanners.',
-            results: 'Daily active user retention increased by 28% over a 30-day cohort analysis.'
-        },
-        'ebanking': {
-            title: 'E-Banking App Concept',
-            category: 'UI/UX Design',
-            client: 'DevGate Consultancy',
-            role: 'UI/UX Design Intern',
-            duration: 'Sept 2023 - Nov 2023',
-            tools: ['Figma', 'FinTech UX', 'UI Systems'],
-            url: '#',
-            img: 'assets/chameleon.jpg',
-            overview: 'Modern high-contrast digital banking concept focusing on quick transfers and expense tracking.',
-            problem: 'Traditional mobile banking screens suffer from visual clutter and tiny touch targets.',
-            solution: 'Designed high-contrast dark mode interfaces with oversized biometric authentication triggers.',
-            results: 'Achieved 100% WCAG AAA accessibility compliance across all primary screens.'
+            overview: 'An intuitive mobile health companion that tracks workouts, counts daily calorie intake, and visualizes fitness goals.',
+            problem: 'Users abandoned nutrition tracking apps due to tedious manual entry and confusing progress charts.',
+            solution: 'Designed card-based dark mode layouts with rapid barcode logging, custom macro progress rings, and interactive meal logs.',
+            results: 'Achieved 92% positive user sentiment and increased daily active retention by 28%.'
         },
         'gitex': {
             title: 'GITEX AI Expo Visuals',
-            category: 'Graphic Design',
             client: 'Broomstick Creative (UAE)',
             role: 'Static Graphic Designer',
             duration: 'Nov 2025 - Present',
             tools: ['Adobe Illustrator', 'Photoshop', 'Large Format Print', 'Branding'],
-            url: '#',
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio',
             img: 'assets/polaroid.jpg',
             overview: 'Large-scale trade show visual assets and exhibition booth graphics for GITEX AI Kazakhstan.',
             problem: 'Required high-impact graphics that retain legibility across 10-meter exhibition displays.',
@@ -594,12 +587,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         'automechanika': {
             title: 'Automechanika Dubai Prints',
-            category: 'Graphic Design',
             client: 'Broomstick Creative (UAE)',
             role: 'Static Graphic Designer',
             duration: 'Nov 2025 - Present',
             tools: ['Adobe Illustrator', 'InDesign', 'Print Production'],
-            url: '#',
+            url: 'https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio',
             img: 'assets/totebag.jpg',
             overview: 'Brochures, custom tote bags, and visitor leaflets for one of the largest automotive trade fairs.',
             problem: 'Required high-contrast print layouts that represent automotive logistics cleanly.',
@@ -629,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="project-modal-gallery">
                             <div class="project-gallery-header">
                                 <div class="project-gallery-dots"><span></span><span></span><span></span></div>
-                                <div class="project-gallery-url">${project.url}</div>
+                                <div class="project-gallery-url">${project.title}</div>
                             </div>
                             <div class="project-gallery-scroll-container" id="modalScrollContainer">
                                 <img src="${project.img}" alt="${project.title} Full Showcase" id="modalMockupImg">
@@ -640,11 +632,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
 
                         <div class="project-modal-details">
-                            <div class="project-modal-meta">
-                                <span class="project-modal-cat">${project.category}</span>
-                                <span class="project-modal-role"><i class="fa-solid fa-user-tag"></i> ${project.role}</span>
-                            </div>
-
                             <h2 class="project-modal-title">${project.title}</h2>
                             <p class="project-modal-overview">${project.overview}</p>
 
@@ -669,8 +656,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
 
                             <div class="project-modal-actions">
-                                <a href="https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2-10957" target="_blank" class="project-action-btn secondary">
-                                    <span>INSPECT FIGMA ARTIFACTS</span>
+                                <a href="${project.url}" target="_blank" class="project-action-btn secondary">
+                                    <span>INSPECT FIGMA DESIGN</span>
                                     <i class="fa-brands fa-figma"></i>
                                 </a>
                             </div>
@@ -1110,4 +1097,273 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast('Glitch Effect Triggered!', 'fa-bolt');
         });
     }
+
+    // 14. LINKEDIN TOPICS CAROUSEL MODAL LOGIC
+    const LINKEDIN_TOPICS_DATA = {
+        'brutalism': {
+            topic: 'Brutalism vs. Minimalism',
+            postUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7492919264987734018/',
+            slides: [
+                { heading: 'Raw Utility vs. Intentional Elegance', text: 'Brutalism rejects excessive polish to reveal raw structural hierarchy. Minimalism removes distraction to highlight core purpose.' },
+                { heading: 'High-Contrast Monospace Power', text: 'Brutalist interfaces rely on stark black/white canvases, exposed grid borders, and bold neon spotlights.' },
+                { heading: 'The Modern Hybrid Paradigm', text: 'The most compelling digital experiences combine minimal user flows with bold, playful brutalist visual accents.' }
+            ]
+        },
+        'colour': {
+            topic: 'Colour Psychology in UX',
+            postUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7512776968837246977/',
+            slides: [
+                { heading: 'Subconscious Visual Triggers', text: 'Colors trigger emotional responses before text is even read. Deep violets signal luxury and authority, while bright cyans spark technological optimism.' },
+                { heading: 'The 60-30-10 Rule', text: '60% dominant backdrop, 30% structural text/surface color, 10% high-energy accent for primary CTA triggers.' },
+                { heading: 'AAA Contrast Accessibility', text: 'Never sacrifice readability for aesthetics. Strict contrast validation ensures legibility across all ambient lighting conditions.' }
+            ]
+        },
+        'aidesign': {
+            topic: 'AI in the Design Process',
+            postUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7508444967632003072/',
+            slides: [
+                { heading: 'Augmenting Human Intuition', text: 'AI functions as a high-speed thought partner, rapidly generating wireframe variations and color explorations.' },
+                { heading: 'Curation is the New Craft', text: 'While AI speeds up initial layout exploration, human designers provide spatial empathy, emotional connection, and micro-interaction polish.' },
+                { heading: 'The Future Designer Workflow', text: 'Iterate 10x faster by leveraging AI for wireframing, allowing more time dedicated to user research and visual perfection.' }
+            ]
+        },
+        'paradox': {
+            topic: 'The Creativity Paradox',
+            postUrl: 'https://lnkd.in/p/dRGeHxHh',
+            slides: [
+                { heading: 'Constraints Breed Innovation', text: 'Infinite freedom causes decision paralysis. Rigid grids and strict color rules force creative problem solving.' },
+                { heading: 'Done Beats Solitary Perfection', text: 'Releasing micro-prototypes into the wild yields real user feedback, superior to months of isolated tweaking.' },
+                { heading: 'Embrace Playful Sandbox Mindset', text: 'Treat every project as a dynamic experiment. Curiosity and micro-interactions turn standard apps into memorable portals.' }
+            ]
+        }
+    };
+
+    window.LINKEDIN_TOPICS_DATA = LINKEDIN_TOPICS_DATA;
+    let activeTopicKey = 'brutalism';
+    let currentSlideIndex = 0;
+
+    const linkedinModal = document.getElementById('linkedinModal');
+    const closeLinkedinModalBtn = document.getElementById('closeLinkedinModalBtn');
+    const linkedinCarouselView = document.getElementById('linkedinCarouselView');
+    const prevSlideBtn = document.getElementById('prevSlideBtn');
+    const nextSlideBtn = document.getElementById('nextSlideBtn');
+    const carouselDots = document.getElementById('carouselDots');
+    const viewOriginalPostBtn = document.getElementById('viewOriginalPostBtn');
+
+    window.renderLinkedinSlide = function() {
+        const topicData = LINKEDIN_TOPICS_DATA[activeTopicKey];
+        if (!topicData) return;
+
+        const slide = topicData.slides[currentSlideIndex];
+        if (linkedinCarouselView) {
+            linkedinCarouselView.innerHTML = `
+                <div class="linkedin-slide-card">
+                    <span class="slide-badge-topic">${topicData.topic} • Slide ${currentSlideIndex + 1} of ${topicData.slides.length}</span>
+                    <h3 class="slide-heading">${slide.heading}</h3>
+                    <p class="slide-body-text">${slide.text}</p>
+                </div>
+            `;
+        }
+
+        if (carouselDots) {
+            carouselDots.innerHTML = topicData.slides.map((_, i) => 
+                `<div class="carousel-dot ${i === currentSlideIndex ? 'active' : ''}" data-index="${i}"></div>`
+            ).join('');
+
+            carouselDots.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const idx = parseInt(dot.getAttribute('data-index'), 10);
+                    currentSlideIndex = idx;
+                    renderLinkedinSlide();
+                    playClickSound();
+                });
+            });
+        }
+
+        if (viewOriginalPostBtn) {
+            viewOriginalPostBtn.href = topicData.postUrl;
+        }
+    };
+
+    if (prevSlideBtn) {
+        prevSlideBtn.addEventListener('click', () => {
+            const topicData = LINKEDIN_TOPICS_DATA[activeTopicKey];
+            if (!topicData) return;
+            currentSlideIndex = (currentSlideIndex - 1 + topicData.slides.length) % topicData.slides.length;
+            renderLinkedinSlide();
+            playClickSound();
+        });
+    }
+
+    if (nextSlideBtn) {
+        nextSlideBtn.addEventListener('click', () => {
+            const topicData = LINKEDIN_TOPICS_DATA[activeTopicKey];
+            if (!topicData) return;
+            currentSlideIndex = (currentSlideIndex + 1) % topicData.slides.length;
+            renderLinkedinSlide();
+            playClickSound();
+        });
+    }
+
+    if (closeLinkedinModalBtn && linkedinModal) {
+        const closeLinkedin = () => {
+            linkedinModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        closeLinkedinModalBtn.addEventListener('click', closeLinkedin);
+        linkedinModal.addEventListener('click', (e) => {
+            if (e.target === linkedinModal) closeLinkedin();
+        });
+    }
+
+    // 15. MAGIC PALETTE HARMONY GENERATOR
+    const generatePaletteBtn = document.getElementById('generatePaletteBtn');
+    const magicPaletteStage = document.getElementById('magicPaletteStage');
+    const harmonyChips = document.querySelectorAll('.harmony-chip');
+    let currentHarmonyMode = 'auto';
+
+    function hslToHex(h, s, l) {
+        l /= 100;
+        const a = s * Math.min(l, 1 - l) / 100;
+        const f = n => {
+            const k = (n + h / 30) % 12;
+            const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            return Math.round(255 * color).toString(16).padStart(2, '0');
+        };
+        return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+    }
+
+    function generateHarmoniousPalette(mode) {
+        const baseHue = Math.floor(Math.random() * 360);
+        let hues = [];
+
+        if (mode === 'mono') {
+            hues = [baseHue, baseHue, baseHue, baseHue, baseHue];
+        } else if (mode === 'analogous') {
+            hues = [baseHue - 40, baseHue - 20, baseHue, baseHue + 20, baseHue + 40];
+        } else if (mode === 'complementary') {
+            hues = [baseHue, baseHue + 15, baseHue + 180, baseHue + 195, baseHue + 30];
+        } else if (mode === 'split') {
+            hues = [baseHue, baseHue + 150, baseHue + 210, baseHue + 20, baseHue + 170];
+        } else if (mode === 'triadic') {
+            hues = [baseHue, baseHue + 120, baseHue + 240, baseHue + 60, baseHue + 180];
+        } else if (mode === 'tetradic') {
+            hues = [baseHue, baseHue + 90, baseHue + 180, baseHue + 270, baseHue + 45];
+        } else { // auto
+            hues = [baseHue, (baseHue + 40) % 360, (baseHue + 120) % 360, (baseHue + 180) % 360, (baseHue + 280) % 360];
+        }
+
+        const roles = ['Dominant', 'Secondary', 'Accent', 'Vibe', 'Spotlight'];
+        const colors = hues.map((h, i) => {
+            const sat = mode === 'mono' ? 60 + i * 8 : Math.floor(Math.random() * 30 + 65);
+            const light = mode === 'mono' ? 25 + i * 14 : Math.floor(Math.random() * 30 + 45);
+            return { hex: hslToHex((h + 360) % 360, sat, light), role: roles[i] };
+        });
+
+        if (magicPaletteStage) {
+            magicPaletteStage.innerHTML = colors.map(c => `
+                <div class="color-bar-col" style="background: ${c.hex};" data-hex="${c.hex}">
+                    <span class="color-hex">${c.hex}</span>
+                    <span class="color-role">${c.role}</span>
+                </div>
+            `).join('');
+
+            magicPaletteStage.querySelectorAll('.color-bar-col').forEach(col => {
+                col.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const hex = col.getAttribute('data-hex');
+                    if (hex) {
+                        navigator.clipboard.writeText(hex).then(() => {
+                            playSuccessSound();
+                            showToast(`Copied ${hex} to clipboard!`, 'fa-copy');
+                        });
+                    }
+                });
+            });
+        }
+    }
+
+    if (generatePaletteBtn) {
+        generatePaletteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            generateHarmoniousPalette(currentHarmonyMode);
+            playSuccessSound();
+        });
+    }
+
+    harmonyChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            harmonyChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            currentHarmonyMode = chip.getAttribute('data-mode') || 'auto';
+            generateHarmoniousPalette(currentHarmonyMode);
+            playClickSound();
+            showToast(`Palette Mode: ${currentHarmonyMode.toUpperCase()}`, 'fa-palette');
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && e.target === document.body) {
+            e.preventDefault();
+            generateHarmoniousPalette(currentHarmonyMode);
+            playSuccessSound();
+        }
+    });
+
+    // 16. DESIGN TERMS PUZZLE GAME LOGIC
+    const PUZZLE_QUESTIONS = [
+        { term: 'KERNING', desc: 'Adjustment of space between two specific letter characters.', options: ['Space between letter pairs', 'Overall line spacing (leading)', 'Font weight thickness', 'Margin padding around text'], correct: 0 },
+        { term: 'AFFORDANCE', desc: 'Clues that indicate how an object or interface button is used.', options: ['Visual cues revealing function', 'Database query speed', 'Color contrast ratio', 'Screen pixel density'], correct: 0 },
+        { term: 'HEURISTIC EVALUATION', desc: 'Usability inspection method based on established UX guidelines.', options: ['Expert usability rule audit', 'A/B conversion tracking', 'Figma auto-layout setup', 'CSS grid flex alignment'], correct: 0 },
+        { term: 'SKELETON SCREEN', desc: 'Blank wireframe layout shown while content is loading.', options: ['Placeholder visual loading state', 'Final high-fidelity mockup', 'Dark mode color scheme', 'Error popup fallback modal'], correct: 0 },
+        { term: 'FITTS\'S LAW', desc: 'Time to hit a target depends on distance and target size.', options: ['Bigger/closer buttons are faster to click', 'More choices slow decision speed', 'Users skim in F-shaped pattern', '7±2 items max in working memory'], correct: 0 }
+    ];
+
+    let puzzleIndex = 0;
+    let puzzleScore = 0;
+
+    const puzzleTermPrompt = document.getElementById('puzzleTermPrompt');
+    const puzzleDescText = document.getElementById('puzzleDescText');
+    const puzzleOptions = document.getElementById('puzzleOptions');
+    const puzzleScoreBadge = document.getElementById('puzzleScore');
+
+    function renderPuzzleQuestion() {
+        if (!puzzleTermPrompt || !puzzleOptions) return;
+        const q = PUZZLE_QUESTIONS[puzzleIndex];
+        puzzleTermPrompt.innerText = `TERM: ${q.term}`;
+        if (puzzleDescText) puzzleDescText.innerText = q.desc;
+
+        puzzleOptions.innerHTML = q.options.map((opt, i) => 
+            `<button class="puzzle-opt-btn" data-index="${i}">${i + 1}. ${opt}</button>`
+        ).join('');
+
+        puzzleOptions.querySelectorAll('.puzzle-opt-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const selected = parseInt(btn.getAttribute('data-index'), 10);
+                if (selected === q.correct) {
+                    btn.classList.add('correct');
+                    puzzleScore++;
+                    playSuccessSound();
+                    showToast('Correct! Great UX knowledge.', 'fa-circle-check');
+                } else {
+                    btn.classList.add('wrong');
+                    playTone(200, 'sawtooth', 0.2);
+                    showToast('Oops! Try the next term.', 'fa-triangle-exclamation');
+                }
+
+                if (puzzleScoreBadge) {
+                    puzzleScoreBadge.innerText = `Score: ${puzzleScore} / ${PUZZLE_QUESTIONS.length}`;
+                }
+
+                setTimeout(() => {
+                    puzzleIndex = (puzzleIndex + 1) % PUZZLE_QUESTIONS.length;
+                    renderPuzzleQuestion();
+                }, 1200);
+            });
+        });
+    }
+
+    renderPuzzleQuestion();
 });

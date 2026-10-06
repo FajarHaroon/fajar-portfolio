@@ -3362,4 +3362,418 @@ form {
     letter-spacing: 0.5px;
 }
 
+/* LINKEDIN TOPIC HERO CARDS & MODAL STYLES */
+.card-topic .topic-card-inner {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(35, 15, 65, 0.85), rgba(15, 8, 30, 0.92));
+    border: 1px solid rgba(213, 194, 238, 0.25);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    transition: var(--transition-bounce);
+}
+
+.card-topic:hover .topic-card-inner {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 20px 45px rgba(0, 240, 255, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    transform: translateY(-4px) scale(1.02);
+}
+
+.topic-icon {
+    font-size: 1.8rem;
+    color: var(--accent-cyan);
+    margin-bottom: 12px;
+}
+
+.topic-title {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 16px;
+}
+
+.card-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--accent-purple);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* LINKEDIN MODAL CAROUSEL */
+.linkedin-modal-card {
+    max-width: 680px;
+    width: 92%;
+    background: #1b1f23;
+    border: 1px solid #38434f;
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+    color: #e6e6e6;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(10, 102, 194, 0.3);
+}
+
+.linkedin-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #2d3742;
+    background: #161b22;
+}
+
+.linkedin-author-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.linkedin-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #0a66c2;
+}
+
+.linkedin-author-details h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.author-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-degree {
+    font-size: 0.75rem;
+    color: #8c98a4;
+}
+
+.author-bio {
+    font-size: 0.75rem;
+    color: #b0b8c1;
+    margin-top: 2px;
+}
+
+.post-timestamp {
+    font-size: 0.7rem;
+    color: #717d8a;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.linkedin-follow-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #0a66c2;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.linkedin-follow-btn:hover {
+    background: #004182;
+}
+
+.linkedin-carousel-view {
+    padding: 32px 28px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 30%, #222933, #161b22);
+}
+
+.linkedin-slide-card {
+    text-align: left;
+    animation: fadeInSlide 0.4s ease forwards;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-badge-topic {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(10, 102, 194, 0.2);
+    border: 1px solid rgba(10, 102, 194, 0.4);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    color: #70b5f9;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+.slide-heading {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 14px;
+}
+
+.slide-body-text {
+    font-size: 1rem;
+    color: #d1d7de;
+    line-height: 1.6;
+}
+
+.linkedin-carousel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-top: 1px solid #2d3742;
+    background: #161b22;
+}
+
+.carousel-nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.carousel-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #28333e;
+    border: 1px solid #3d4c5c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.carousel-nav-btn:hover {
+    background: #0a66c2;
+    border-color: #0a66c2;
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #485666;
+    transition: all 0.3s;
+}
+
+.carousel-dot.active {
+    background: #0a66c2;
+    width: 20px;
+    border-radius: 10px;
+}
+
+.view-post-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #70b5f9;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.view-post-btn:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* MAGIC PALETTE WIDGET */
+.bento-magic-palette {
+    display: flex;
+    flex-direction: column;
+}
+
+.magic-palette-stage {
+    display: flex;
+    height: 140px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 14px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.color-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px 8px;
+    color: #fff;
+    font-family: var(--font-head);
+    transition: flex 0.3s ease, background 0.5s ease;
+    cursor: pointer;
+}
+
+.color-bar-col:hover {
+    flex: 1.4;
+}
+
+.color-hex {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.color-role {
+    font-size: 0.6rem;
+    opacity: 0.8;
+}
+
+.palette-harmony-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.harmony-chip {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.harmony-chip.active, .harmony-chip:hover {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+    color: #000;
+}
+
+.palette-gen-btn {
+    background: rgba(162, 70, 240, 0.2);
+    border: 1px solid var(--accent-purple);
+    color: var(--accent-purple);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.palette-gen-btn:hover {
+    background: var(--accent-purple);
+    color: #000;
+}
+
+/* DESIGN TERMS PUZZLE WIDGET */
+.puzzle-game-container {
+    padding: 12px 0;
+}
+
+.puzzle-question-box {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(213, 194, 238, 0.15);
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.puzzle-term-prompt {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--accent-cyan);
+    letter-spacing: 1px;
+    display: block;
+}
+
+.puzzle-desc-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.puzzle-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.puzzle-opt-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.puzzle-opt-btn:hover {
+    background: rgba(0, 240, 255, 0.12);
+    border-color: var(--accent-cyan);
+}
+
+.puzzle-opt-btn.correct {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: #10b981;
+    color: #34d399;
+}
+
+.puzzle-opt-btn.wrong {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #f87171;
+}
+
+.puzzle-score-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    background: rgba(0, 240, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* CRISP HIGH QUALITY CASE STUDY MOCKUP IMAGES */
+#modalMockupImg, .project-gallery-scroll-container img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: high-quality;
+    width: 100%;
+    display: block;
+}
+
 
