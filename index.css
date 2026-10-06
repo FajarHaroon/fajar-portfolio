@@ -2120,6 +2120,8 @@ form {
     width: 100%;
     height: auto;
     display: block;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
     transition: filter var(--transition-smooth);
 }
 
@@ -3347,6 +3349,17 @@ form {
     font-family: var(--font-head);
     font-size: 0.9rem;
     color: var(--text-secondary);
+}
+
+.figma-sandbox-tag {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    color: var(--accent-purple);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
 }
 
 

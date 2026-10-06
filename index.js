@@ -669,16 +669,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
 
                             <div class="project-modal-actions">
-                                ${project.url !== '#' ? `
-                                <a href="${project.url}" target="_blank" class="project-action-btn primary">
-                                    <span>LAUNCH LIVE DEPLOYMENT</span>
-                                    <i class="fa-solid fa-rocket"></i>
-                                </a>` : `
-                                <button class="project-action-btn primary" onclick="alert('Interactive prototype is currently private. Please refer to resume or Figma links for access.')">
-                                    <span>PROTOTYPE LOCKED</span>
-                                    <i class="fa-solid fa-lock"></i>
-                                </button>
-                                `}
                                 <a href="https://www.figma.com/design/eMAJmN9g3PqhKVuPVSIWVi/Fajar-Haroon---Design-Portfolio?node-id=2-10957" target="_blank" class="project-action-btn secondary">
                                     <span>INSPECT FIGMA ARTIFACTS</span>
                                     <i class="fa-brands fa-figma"></i>
@@ -730,14 +720,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const drawInitialChalkDoodle = () => {
             ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+            ctx.lineWidth = 1.8;
             ctx.lineCap = 'round';
-            ctx.strokeRect(20, 20, 160, 90);
-            ctx.beginPath(); ctx.arc(280, 65, 25, 0, Math.PI * 2); ctx.stroke();
-            ctx.font = '13px sans-serif';
+            ctx.lineJoin = 'round';
+
+            // Top Header Bar Wireframe
+            ctx.strokeRect(15, 12, chalkboardCanvas.width - 30, 26);
+            ctx.fillRect(25, 20, 30, 10); // Logo placeholder
+            ctx.strokeRect(chalkboardCanvas.width - 120, 20, 25, 10); // Nav link 1
+            ctx.strokeRect(chalkboardCanvas.width - 85, 20, 25, 10); // Nav link 2
+            ctx.strokeRect(chalkboardCanvas.width - 50, 20, 25, 10); // Nav link 3
+
+            // Hero Headline Wireframe Text Lines
             ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-            ctx.fillText('⚡ UX WIREFRAME BOARD', 25, 140);
+            ctx.fillRect(25, 55, 180, 14); // H1 Line 1
+            ctx.fillRect(25, 75, 140, 14); // H1 Line 2
+            ctx.fillRect(25, 98, 190, 8);  // Subtitle Line 1
+            ctx.fillRect(25, 110, 150, 8); // Subtitle Line 2
+
+            // CTA Button Wireframe Box
+            ctx.strokeRect(25, 130, 80, 24);
+            ctx.fillRect(35, 138, 60, 8);
+
+            // Hero Image Placeholder Box with Diagonal Cross
+            const imgX = chalkboardCanvas.width - 165;
+            const imgY = 55;
+            const imgW = 140;
+            const imgH = 100;
+            ctx.strokeRect(imgX, imgY, imgW, imgH);
+            ctx.beginPath();
+            ctx.moveTo(imgX, imgY);
+            ctx.lineTo(imgX + imgW, imgY + imgH);
+            ctx.moveTo(imgX + imgW, imgY);
+            ctx.lineTo(imgX, imgY + imgH);
+            ctx.stroke();
+
+            // Wireframe Label
+            ctx.font = '11px sans-serif';
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+            ctx.fillText('⚡ HERO LAYOUT WIREFRAME v1.0', 25, 175);
         };
 
         const resizeCanvas = () => {
@@ -799,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 drawInitialChalkDoodle();
                 playTone(400, 'sine', 0.08);
-                showToast('Chalkboard Cleared', 'fa-eraser');
+                showToast('Chalkboard Reset to Wireframe', 'fa-eraser');
             });
         }
     }
@@ -826,14 +848,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ctx = chalkboardCanvas.getContext('2d');
                 ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
                 ctx.strokeStyle = currentChalkColor;
-                ctx.lineWidth = 2;
-                if (tmpl === 'wireframe') {
-                    ctx.strokeRect(20, 20, 160, 90);
-                    ctx.beginPath(); ctx.arc(280, 65, 25, 0, Math.PI * 2); ctx.stroke();
-                } else if (tmpl === 'flow') {
-                    ctx.strokeRect(20, 20, 80, 40);
-                    ctx.strokeRect(140, 20, 80, 40);
-                    ctx.beginPath(); ctx.moveTo(100, 40); ctx.lineTo(140, 40); ctx.stroke();
+                ctx.lineWidth = 1.8;
+                if (tmpl === 'hero') {
+                    // Draw Hero Layout
+                    ctx.strokeRect(15, 12, chalkboardCanvas.width - 30, 26);
+                    ctx.fillRect(25, 20, 30, 10);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+                    ctx.fillRect(25, 55, 180, 14);
+                    ctx.fillRect(25, 75, 140, 14);
+                    ctx.fillRect(25, 98, 190, 8);
+                    ctx.strokeRect(25, 130, 80, 24);
+                    const imgX = chalkboardCanvas.width - 165;
+                    ctx.strokeRect(imgX, 55, 140, 100);
+                    ctx.beginPath();
+                    ctx.moveTo(imgX, 55); ctx.lineTo(imgX + 140, 155);
+                    ctx.moveTo(imgX + 140, 55); ctx.lineTo(imgX, 155);
+                    ctx.stroke();
+                } else if (tmpl === 'dashboard') {
+                    ctx.strokeRect(15, 15, 120, 60);
+                    ctx.strokeRect(145, 15, 120, 60);
+                    ctx.strokeRect(275, 15, 130, 60);
+                    ctx.strokeRect(15, 85, 250, 85);
+                    ctx.strokeRect(275, 85, 130, 85);
+                } else if (tmpl === 'blank') {
+                    ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
                 }
             }
             showToast(`Template: ${btn.innerText}`, 'fa-layer-group');
