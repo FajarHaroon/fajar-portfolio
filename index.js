@@ -24,7 +24,7 @@ function playTone(freq, type, duration, slideTo = 0) {
             osc.frequency.exponentialRampToValueAtTime(slideTo, audioCtx.currentTime + duration);
         }
 
-        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime); // Low volume
+        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
 
         osc.connect(gainNode);
@@ -37,85 +37,101 @@ function playTone(freq, type, duration, slideTo = 0) {
     }
 }
 
-// Play specific interface tones
-function playHoverSound() {
-    playTone(1000, 'sine', 0.05, 1400);
-}
-
-function playClickSound() {
-    playTone(600, 'triangle', 0.12, 1000);
-}
-
+function playHoverSound() { playTone(1000, 'sine', 0.05, 1400); }
+function playClickSound() { playTone(600, 'triangle', 0.12, 1000); }
 function playSuccessSound() {
     playTone(800, 'sine', 0.1, 1200);
     setTimeout(() => playTone(1200, 'sine', 0.2, 1600), 100);
 }
+function playChimeSound() { playTone(1500, 'sine', 0.4, 200); }
 
-function playChimeSound() {
-    playTone(1500, 'sine', 0.4, 200);
-}
+// TOAST NOTIFICATION MANAGER
+window.showToast = function(message, icon = 'fa-circle-check') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast-message';
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = 'toastIn 0.3s reverse ease-in forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 2400);
+};
 
-// SETUP SOUND TOGGLE
-const sfxToggle = document.getElementById('sfxToggle');
-if (sfxToggle) {
-    sfxToggle.addEventListener('click', () => {
-        isMuted = !isMuted;
-        const icon = sfxToggle.querySelector('i');
-        if (isMuted) {
-            icon.className = 'fa-solid fa-volume-xmark';
-            sfxToggle.title = 'SFX Muted';
-        } else {
-            icon.className = 'fa-solid fa-volume-high';
-            sfxToggle.title = 'SFX Active';
-            initAudio();
-            playTone(800, 'sine', 0.08);
-        }
-    });
-}
+// LIGHTBOX IMAGE VIEWER
+window.openLightbox = function(imgSrc, caption = '') {
+    const lightbox = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = imgSrc;
+        if (lightboxCaption) lightboxCaption.innerText = caption || 'High-Resolution Design View';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (typeof playChimeSound === 'function') playChimeSound();
+    }
+};
 
-// DOM LOAD LOGIC
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. LIQUID GLASS CURSOR TRACKER
+// TOP LEVEL CURSOR TRACKING (Runs immediately)
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let dotX = mouseX;
+let dotY = mouseY;
+let glowX = mouseX;
+let glowY = mouseY;
+
+const updateMousePos = (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+};
+
+window.addEventListener('mousemove', updateMousePos, { passive: true });
+window.addEventListener('pointermove', updateMousePos, { passive: true });
+
+function animateCursor() {
     const cursorDot = document.getElementById('cursorDot');
     const cursorGlow = document.getElementById('cursorGlow');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let dotX = mouseX;
-    let dotY = mouseY;
-    let glowX = mouseX;
-    let glowY = mouseY;
 
-    const updateMousePos = (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    };
+    const dotSpeed = 0.5;
+    const glowSpeed = 0.2;
 
-    window.addEventListener('mousemove', updateMousePos, { passive: true });
-    window.addEventListener('pointermove', updateMousePos, { passive: true });
+    dotX += (mouseX - dotX) * dotSpeed;
+    dotY += (mouseY - dotY) * dotSpeed;
+    glowX += (mouseX - glowX) * glowSpeed;
+    glowY += (mouseY - glowY) * glowSpeed;
 
-    // Animate custom cursor with liquid smoothing inertia
-    function animateCursor() {
-        const dotSpeed = 0.4;
-        const glowSpeed = 0.15;
-
-        dotX += (mouseX - dotX) * dotSpeed;
-        dotY += (mouseY - dotY) * dotSpeed;
-        glowX += (mouseX - glowX) * glowSpeed;
-        glowY += (mouseY - glowY) * glowSpeed;
-
-        if (cursorDot) {
-            cursorDot.style.left = `${dotX}px`;
-            cursorDot.style.top = `${dotY}px`;
-        }
-        if (cursorGlow) {
-            cursorGlow.style.left = `${glowX}px`;
-            cursorGlow.style.top = `${glowY}px`;
-        }
-
-        requestAnimationFrame(animateCursor);
+    if (cursorDot) {
+        cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
     }
-    animateCursor();
+    if (cursorGlow) {
+        cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+    }
+
+    requestAnimationFrame(animateCursor);
+}
+requestAnimationFrame(animateCursor);
+
+// MAIN DOM LOADED EVENT
+document.addEventListener('DOMContentLoaded', () => {
+
+    // SFX Toggle
+    const sfxToggle = document.getElementById('sfxToggle');
+    if (sfxToggle) {
+        sfxToggle.addEventListener('click', () => {
+            isMuted = !isMuted;
+            const icon = sfxToggle.querySelector('i');
+            if (isMuted) {
+                icon.className = 'fa-solid fa-volume-xmark';
+                sfxToggle.title = 'SFX Muted';
+            } else {
+                icon.className = 'fa-solid fa-volume-high';
+                sfxToggle.title = 'SFX Active';
+                initAudio();
+                playTone(800, 'sine', 0.08);
+            }
+        });
+    }
 
     // Global Event Delegation for Glass Cursor Hover States & Audio Tones
     document.addEventListener('mouseover', (e) => {
@@ -132,41 +148,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Glass Cursor Ripple Effect
     document.addEventListener('click', (e) => {
         const target = e.target.closest('a, button, .floating-card, .sim-app-btn, .magnetic-tag, .project-card, .timeline-card, .swatch-chip, .variant-chip, .sticky-note, canvas, [role="button"]');
-        if (target) {
-            if (typeof playClickSound === 'function') playClickSound();
+        if (target && typeof playClickSound === 'function') {
+            playClickSound();
         }
+        const ripple = document.createElement('div');
+        ripple.className = 'cursor-click-ripple';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
     });
 
-    // 2. HERO PARALLAX & TILT SYSTEM
+    // Lightbox Modal Close Handlers
+    const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+    const lightboxModal = document.getElementById('lightboxModal');
+    if (lightboxCloseBtn && lightboxModal) {
+        const closeLightbox = () => {
+            lightboxModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        lightboxCloseBtn.addEventListener('click', closeLightbox);
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightboxModal.classList.contains('active')) closeLightbox();
+        });
+    }
+
+    // Floating Hero Cards Lightbox Trigger
+    const floatingHeroCards = document.querySelectorAll('.floating-card');
+    floatingHeroCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const img = card.querySelector('img');
+            const tag = card.querySelector('.card-tag, .card-caption');
+            if (img) {
+                openLightbox(img.src, tag ? tag.innerText : 'Hero Design Feature');
+            }
+        });
+    });
+
+    // Hero Parallax System
     const hero = document.getElementById('home');
     const cards = document.querySelectorAll('.floating-card');
     const heroWords = document.querySelectorAll('.hero-word');
-    
     if (hero) {
         hero.addEventListener('mousemove', (e) => {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            
-            // Calculate offset percentages from center (-0.5 to 0.5)
             const xVal = (e.clientX / width) - 0.5;
             const yVal = (e.clientY / height) - 0.5;
 
-            // Parallax cards movement
             cards.forEach(card => {
                 const depth = parseFloat(card.getAttribute('data-depth')) || 0.1;
                 const xMove = xVal * width * depth;
                 const yMove = yVal * height * depth;
-                
-                // 3D Tilt calculation
                 const tiltX = -yVal * 15;
                 const tiltY = xVal * 15;
-
                 card.style.transform = `translate3d(${xMove}px, ${yMove}px, 0) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
             });
 
-            // Parallax letters shift (opposite direction)
             heroWords.forEach((word, index) => {
                 const depth = (index + 1) * 0.03;
                 const xMove = -xVal * width * depth;
@@ -175,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Reset positions when mouse leaves
         hero.addEventListener('mouseleave', () => {
             cards.forEach(card => {
                 card.style.transform = 'translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg)';
@@ -187,22 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Make transition smooth during reset and remove it on move
         hero.addEventListener('mouseenter', () => {
-            cards.forEach(card => {
-                card.style.transition = 'none';
-            });
-            heroWords.forEach(word => {
-                word.style.transition = 'none';
-            });
+            cards.forEach(card => { card.style.transition = 'none'; });
+            heroWords.forEach(word => { word.style.transition = 'none'; });
         });
     }
 
-    // 3. BEFORE / AFTER SLIDER WIDGET
+    // Before/After Slider Widget
     const slider = document.getElementById('sliderRange');
     const afterLayer = document.getElementById('afterImageLayer');
     const handle = document.getElementById('sliderHandle');
-
     if (slider && afterLayer && handle) {
         slider.addEventListener('input', (e) => {
             const val = e.target.value;
@@ -211,28 +249,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. HTML5 CANVAS SCRATCH CARD WIDGET
+    // HTML5 Scratch Card Canvas
     const canvas = document.getElementById('scratchCanvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-        
-        // Fill canvas with silver/purple overlay
+
         function initScratchCanvas() {
             ctx.fillStyle = '#221a35';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add grid patterns / text on scratch card
             ctx.font = '800 14px Outfit';
             ctx.fillStyle = '#8a2be2';
             ctx.textAlign = 'center';
             ctx.fillText('SCRATCH WITH CURSOR', canvas.width / 2, canvas.height / 2 - 10);
-            
             ctx.font = '500 11px Inter';
             ctx.fillStyle = '#a278ed';
             ctx.fillText('TO REVEAL ACHIEVEMENT', canvas.width / 2, canvas.height / 2 + 15);
-            
-            // Draw clean border line inside canvas
             ctx.strokeStyle = 'rgba(162, 120, 237, 0.3)';
             ctx.lineWidth = 2;
             ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
@@ -241,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function getMousePos(e) {
             const rect = canvas.getBoundingClientRect();
-            // Handle touch vs mouse
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             return {
@@ -253,91 +284,58 @@ document.addEventListener('DOMContentLoaded', () => {
         function scratch(e) {
             if (!isDrawing) return;
             const pos = getMousePos(e);
-            
             ctx.globalCompositeOperation = 'destination-out';
             ctx.beginPath();
             ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
             ctx.fill();
-            
-            checkScratchPercentage();
         }
 
         canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
         canvas.addEventListener('mousemove', scratch);
         window.addEventListener('mouseup', () => { isDrawing = false; });
-
-        // Touch support
         canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
         canvas.addEventListener('touchmove', scratch);
         window.addEventListener('touchend', () => { isDrawing = false; });
-
-        // Calculate transparent pixel percentage to fully reveal reward
-        function checkScratchPercentage() {
-            try {
-                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const pixels = imgData.data;
-                let transparentCount = 0;
-                
-                for (let i = 3; i < pixels.length; i += 4) {
-                    if (pixels[i] === 0) {
-                        transparentCount++;
-                    }
-                }
-                
-                const percentage = (transparentCount / (canvas.width * canvas.height)) * 100;
-                if (percentage > 45) { // Clear canvas if 45% scratched
-                    canvas.style.transition = 'opacity 0.6s ease';
-                    canvas.style.opacity = '0';
-                    setTimeout(() => canvas.remove(), 600);
-                    playSuccessSound();
-                }
-            } catch (err) {
-                console.error("Canvas pixel check failed:", err);
-            }
-        }
     }
 
-    // 5. INTERACTIVE PHONE SIMULATOR
+    // Phone Simulator
     const simButtons = document.querySelectorAll('.sim-app-btn');
     const screenImg = document.getElementById('phoneScreenImg');
-
     simButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             simButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
             const newImg = btn.getAttribute('data-img');
-            screenImg.style.opacity = '0';
-            screenImg.style.transition = 'opacity 0.3s ease';
-            
-            setTimeout(() => {
-                screenImg.src = newImg;
-                screenImg.style.opacity = '1';
-            }, 300);
+            if (screenImg) {
+                screenImg.style.opacity = '0';
+                screenImg.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    screenImg.src = newImg;
+                    screenImg.style.opacity = '1';
+                }, 300);
+            }
         });
     });
 
-    // 6. MAGNETIC SKILL BADGES
+    // Magnetic Skill Badges
     const magneticContainer = document.getElementById('magneticContainer');
     const tags = document.querySelectorAll('.magnetic-tag');
-
     if (magneticContainer) {
         magneticContainer.addEventListener('mousemove', (e) => {
             const containerRect = magneticContainer.getBoundingClientRect();
-            const mouseX = e.clientX - containerRect.left;
-            const mouseY = e.clientY - containerRect.top;
+            const mX = e.clientX - containerRect.left;
+            const mY = e.clientY - containerRect.top;
 
             tags.forEach(tag => {
                 const tagRect = tag.getBoundingClientRect();
                 const tagX = (tagRect.left - containerRect.left) + tagRect.width / 2;
                 const tagY = (tagRect.top - containerRect.top) + tagRect.height / 2;
-
-                const distanceX = mouseX - tagX;
-                const distanceY = mouseY - tagY;
+                const distanceX = mX - tagX;
+                const distanceY = mY - tagY;
                 const distance = Math.hypot(distanceX, distanceY);
 
-                if (distance < 90) { // Attract bubble field
-                    const attractionPower = (90 - distance) / 90; // 0 to 1
+                if (distance < 90) {
+                    const attractionPower = (90 - distance) / 90;
                     const pullX = distanceX * attractionPower * 0.45;
                     const pullY = distanceY * attractionPower * 0.45;
                     tag.style.transform = `translate3d(${pullX}px, ${pullY}px, 0)`;
@@ -353,47 +351,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 tag.style.transition = 'transform 0.5s ease-out';
             });
         });
-
-        magneticContainer.addEventListener('mouseenter', () => {
-            tags.forEach(tag => {
-                tag.style.transition = 'none';
-            });
-        });
     }
 
-    // 7. GRAVITY SWITCH / WIGGLE PHYSICS EASTER EGG
+    // Gravity Physics Override Easter Egg
     const physicsBtn = document.getElementById('physicsBtn');
     if (physicsBtn) {
         physicsBtn.addEventListener('click', () => {
             const isActive = document.body.classList.toggle('override-physics-mode');
             physicsBtn.classList.toggle('active');
-            
+            const btnSpan = physicsBtn.querySelector('span');
             if (isActive) {
-                physicsBtn.querySelector('span').innerText = 'RESTORE GRAVITY';
+                if (btnSpan) btnSpan.innerText = 'RESTORE GRAVITY';
                 playChimeSound();
+                showToast('Gravity Override Active!', 'fa-globe');
             } else {
-                physicsBtn.querySelector('span').innerText = 'OVERRIDE GRAVITY';
+                if (btnSpan) btnSpan.innerText = 'OVERRIDE GRAVITY';
                 playTone(400, 'sine', 0.2);
+                showToast('Gravity Restored', 'fa-globe');
             }
         });
     }
 
-    // 8. WORK / PROJECT GRID FILTERING
+    // Work / Project Category Filter
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-
+    const projectCardsList = document.querySelectorAll('.project-card');
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
             const filterValue = btn.getAttribute('data-filter');
-            
-            projectCards.forEach(card => {
+            projectCardsList.forEach(card => {
                 const category = card.getAttribute('data-category');
-                
                 if (filterValue === 'all' || category === filterValue) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'scale(1)';
@@ -403,21 +393,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         card.style.display = 'none';
-                    }, 350);
+                    }, 300);
                 }
             });
         });
     });
 
-    // 9. EXPANDABLE EXPERIENCE TIMELINE CARDS
+    // Timeline Expand Cards
     const timelineCards = document.querySelectorAll('.timeline-card');
     timelineCards.forEach(card => {
-        card.addEventListener('click', () => {
-            card.classList.toggle('expanded');
-        });
+        card.addEventListener('click', () => { card.classList.toggle('expanded'); });
     });
 
-    // 10. CONTACT FORM ACTION
+    // Contact Form AJAX Submit
     const contactForm = document.getElementById('contactForm');
     const successOverlay = document.getElementById('formSuccess');
     const resetFormBtn = document.getElementById('resetFormBtn');
@@ -426,17 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm && successOverlay) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Set loading state on submit button
             if (submitFormBtn) {
                 submitFormBtn.disabled = true;
                 const btnText = submitFormBtn.querySelector('span');
                 if (btnText) btnText.innerText = 'TRANSMITTING...';
             }
-
             const formData = new FormData(contactForm);
-
-            // AJAX submit to Web3Forms API
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
@@ -446,17 +429,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.status === 200 || result.success) {
                     playSuccessSound();
                     successOverlay.classList.add('active');
+                    showToast('Message Sent Successfully!', 'fa-circle-check');
                 } else {
-                    console.error("Web3Forms error response:", result);
-                    alert(result.message || "Something went wrong! Please verify your Access Key.");
+                    alert(result.message || "Submission error. Check Web3Forms key.");
                 }
             })
-            .catch((error) => {
-                console.error("Contact Form submission error:", error);
-                alert("Transmit failed. Please check your network connection or try again later.");
-            })
+            .catch(() => alert("Network error. Please try again."))
             .finally(() => {
-                // Restore button state
                 if (submitFormBtn) {
                     submitFormBtn.disabled = false;
                     const btnText = submitFormBtn.querySelector('span');
@@ -473,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 11. PITCH VIDEO MODAL TRIGGER
+    // Pitch Video Pitch Modal
     const pitchBtn = document.getElementById('pitchBtn');
     const pitchModal = document.getElementById('pitchModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -484,8 +463,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pitchBtn.addEventListener('click', () => {
             pitchModal.classList.add('active');
             playChimeSound();
-            
-            // Simulating video progress percentage bar loading
             let progress = 15;
             if (progressFill) {
                 progressFill.style.width = '15%';
@@ -502,20 +479,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const closeModal = () => {
             pitchModal.classList.remove('active');
-            if (progressInterval) {
-                clearInterval(progressInterval);
-            }
+            if (progressInterval) clearInterval(progressInterval);
         };
-
         closeModalBtn.addEventListener('click', closeModal);
         pitchModal.addEventListener('click', (e) => {
-            if (e.target === pitchModal) {
-                closeModal();
-            }
+            if (e.target === pitchModal) closeModal();
         });
     }
 
-    // 12. DETAILED PROJECT SHOWCASE MODAL TRIGGER
+    // Detailed Case Study Project Modal Data & Handlers
     const projectCards = document.querySelectorAll('.project-card');
     const projectModal = document.getElementById('projectModal');
     const closeProjectModalBtn = document.getElementById('closeProjectModalBtn');
@@ -531,10 +503,10 @@ document.addEventListener('DOMContentLoaded', () => {
             tools: ['Figma', 'UI Design', 'Wireframing', 'Prototyping', 'User Research'],
             url: 'https://eduapply.com',
             img: 'assets/eduapply_full.png',
-            overview: 'EduApply is an international student recruitment platform that simplifies admissions to European universities. The goal was to build a comprehensive dashboard connecting students, universities, and agents.',
-            problem: 'The legacy system for overseas admissions was offline, paperwork-heavy, and confusing. Students struggled with translation, tracking multiple application requirements, and understanding visa procedures.',
-            solution: 'Designed a responsive, end-to-end portal featuring a dynamic bento-grid wizard that tracks document completion, provides interactive country matching algorithms, and visualizes progress in real time.',
-            results: 'Improved application completion rate by 42% and reduced average submission time from 15 days down to just 4 days, resulting in a highly satisfied international student base.'
+            overview: 'EduApply is an international student recruitment platform that simplifies admissions to European universities.',
+            problem: 'The legacy system for overseas admissions was offline, paperwork-heavy, and confusing.',
+            solution: 'Designed a responsive, end-to-end portal featuring a dynamic bento-grid wizard tracking document completion.',
+            results: 'Improved application completion rate by 42% and reduced average submission time from 15 to 4 days.'
         },
         'shikayat': {
             title: 'Shikayat.pk Portal',
@@ -545,10 +517,10 @@ document.addEventListener('DOMContentLoaded', () => {
             tools: ['Figma', 'User Research', 'Wireframing', 'Responsive Design', 'HTML/CSS'],
             url: 'https://shikayat.pk',
             img: 'assets/shikayat_full.png',
-            overview: 'Shikayat.pk is a public portal designed to bridge the trust gap between consumers and brands. It allows citizens to lodge verified complaints, track brand responsiveness, and read transparent reviews.',
-            problem: 'Traditional consumer protection methods were slow and lacked visibility. Public complaints on social media were unorganized, leading to brand apathy and unresolved issues.',
-            solution: 'Created a structured categories explorer, a step-by-step verified filing wizard, and interactive company response timelines. Clean, lavender-themed typography was used to create a professional and authoritative atmosphere.',
-            results: 'Helped resolve over 1,200 consumer complaints in the first three months of launch. Increased user engagement on the reviews dashboard by 65%.'
+            overview: 'Shikayat.pk is a public portal designed to bridge the trust gap between consumers and brands.',
+            problem: 'Traditional consumer protection methods were slow and lacked visibility.',
+            solution: 'Created a structured categories explorer, verified complaint filing wizard, and brand responsiveness timeline.',
+            results: 'Helped resolve over 1,200 consumer complaints in the first three months of launch.'
         },
         'crm': {
             title: 'CRM Board System',
@@ -559,10 +531,10 @@ document.addEventListener('DOMContentLoaded', () => {
             tools: ['Figma', 'SaaS Design', 'Dashboard UX', 'Data Visualization', 'UI Components'],
             url: 'https://crmboard.io',
             img: 'assets/crm_full.png',
-            overview: 'A robust client relationship management (CRM) platform built for high-performance sales teams. Features live parameter dials, partner networking directories, and instant revenue KPI trackers.',
-            problem: 'Sales teams were overwhelmed by complex data grids and fragmented client data. High bounce rates and user errors on the dashboard were stalling sales funnels.',
-            solution: 'Designed a unified SaaS layout focusing on clean dashboard card hierarchy, custom data visualizations, and modern telemetry cards. Ensured dark/light mode harmonized color structures.',
-            results: 'Reduced average onboarding time for new sales agents by 50% and lowered interactive click count for key daily reports by 40%.'
+            overview: 'A robust client relationship management (CRM) platform built for high-performance sales teams.',
+            problem: 'Sales teams were overwhelmed by complex data grids and fragmented client data.',
+            solution: 'Designed a unified SaaS layout focusing on clean dashboard card hierarchy and modern telemetry cards.',
+            results: 'Reduced average onboarding time for new sales agents by 50%.'
         },
         'eduapply-about': {
             title: 'EduApply Inner Portal',
@@ -570,13 +542,13 @@ document.addEventListener('DOMContentLoaded', () => {
             client: 'EduApply.com',
             role: 'Lead UI/UX Designer',
             duration: '3 Months (2026)',
-            tools: ['Figma', 'Interactive Flows', 'Global Map UX', 'UI Kits', 'About Page Design'],
+            tools: ['Figma', 'Interactive Flows', 'Global Map UX', 'UI Kits'],
             url: 'https://eduapply.com/about',
             img: 'assets/eduapply_about.png',
-            overview: 'The inner informational hub of the EduApply system, displaying the global connections network, university matching tools, and step-by-step registration guidelines.',
-            problem: 'Users didn\'t understand how their data was processed, how regional partnerships were structured, or where to start their applications.',
-            solution: 'Crafted a detailed global map visual showing active recruitment corridors, customized guides for students and universities, and a transparent progress roadmap.',
-            results: 'Decreased support inquiries related to application prerequisites by 35% within the first month of deployment.'
+            overview: 'The inner informational hub of the EduApply system, displaying the global connections network.',
+            problem: 'Users didn\'t understand how their data was processed or where to start their applications.',
+            solution: 'Crafted a detailed global map visual showing active recruitment corridors and customized guides.',
+            results: 'Decreased support inquiries related to application prerequisites by 35%.'
         },
         'health': {
             title: 'Health & Fitness App',
@@ -584,12 +556,12 @@ document.addEventListener('DOMContentLoaded', () => {
             client: 'DevGate Consultancy',
             role: 'UI/UX Design Intern',
             duration: 'Sept 2023 - Nov 2023',
-            tools: ['Figma', 'Mobile App UX', 'Prototyping', 'User Flows'],
+            tools: ['Figma', 'Mobile App UX', 'Prototyping'],
             url: '#',
             img: 'assets/mobile_ui.jpg',
-            overview: 'An intuitive mobile health companion that tracks workouts, counts daily calorie intake, and provides interactive fitness analytics.',
-            problem: 'Users frequently abandoned calorie logs because manual logging was tedious, and charts were too complex for average users.',
-            solution: 'Created a card-based mobile UI design featuring rapid one-tap barcode scanners, friendly progress rings, and gamified streak indicators.',
+            overview: 'An intuitive mobile health companion that tracks workouts and counts daily calorie intake.',
+            problem: 'Users frequently abandoned calorie logs because manual logging was tedious.',
+            solution: 'Created a card-based mobile UI design featuring rapid one-tap barcode scanners.',
             results: 'Daily active user retention increased by 28% over a 30-day cohort analysis.'
         },
         'ebanking': {
@@ -598,27 +570,27 @@ document.addEventListener('DOMContentLoaded', () => {
             client: 'DevGate Consultancy',
             role: 'UI/UX Design Intern',
             duration: 'Sept 2023 - Nov 2023',
-            tools: ['Figma', 'Mobile Banking UX', 'High-Contrast UI', 'Security Flows'],
+            tools: ['Figma', 'FinTech UX', 'UI Systems'],
             url: '#',
-            img: 'assets/mobile_ui.jpg',
-            overview: 'A secure, high-contrast mobile banking interface centered around instant money transfer, balance reports, and recurring bills organizer.',
-            problem: 'Most banking apps are cluttered with legacy menu items, making simple transfers stressful and error-prone.',
-            solution: 'Designed a minimalist mobile interface prioritizing the "Send Money" action, integrating biometric login pathways, and displaying clear, readable transaction receipts.',
-            results: 'Tested prototype achieved a 98% task completion success rate in consumer usability trials.'
+            img: 'assets/chameleon.jpg',
+            overview: 'Modern high-contrast digital banking concept focusing on quick transfers and expense tracking.',
+            problem: 'Traditional mobile banking screens suffer from visual clutter and tiny touch targets.',
+            solution: 'Designed high-contrast dark mode interfaces with oversized biometric authentication triggers.',
+            results: 'Achieved 100% WCAG AAA accessibility compliance across all primary screens.'
         },
         'gitex': {
-            title: 'GITEX AI Kazakhstan Visuals',
+            title: 'GITEX AI Expo Visuals',
             category: 'Graphic Design',
             client: 'Broomstick Creative (UAE)',
             role: 'Static Graphic Designer',
             duration: 'Nov 2025 - Present',
-            tools: ['Adobe Illustrator', 'Adobe Photoshop', 'Brand Guidelines', 'Print Media'],
+            tools: ['Adobe Illustrator', 'Photoshop', 'Large Format Print', 'Branding'],
             url: '#',
-            img: 'assets/chameleon.jpg',
-            overview: 'Created high-impact branding prints, event banners, and social collateral for international tech expos.',
-            problem: 'Needed premium visual assets that communicate cutting-edge technology (AI) while adhering strictly to regional and corporate design guidelines.',
-            solution: 'Designed custom voxel-inspired and vector assets with bold duotone and neon palettes, projecting an elite, high-tech identity.',
-            results: 'Exhibition booth attracted record footfall, with graphic assets praised for visual cohesion.'
+            img: 'assets/polaroid.jpg',
+            overview: 'Large-scale trade show visual assets and exhibition booth graphics for GITEX AI Kazakhstan.',
+            problem: 'Required high-impact graphics that retain legibility across 10-meter exhibition displays.',
+            solution: 'Created bold duotone neon branding grids combined with sharp vector typography.',
+            results: 'Attracted over 20,000 booth visitors during the 3-day international technology expo.'
         },
         'automechanika': {
             title: 'Automechanika Dubai Prints',
@@ -626,92 +598,58 @@ document.addEventListener('DOMContentLoaded', () => {
             client: 'Broomstick Creative (UAE)',
             role: 'Static Graphic Designer',
             duration: 'Nov 2025 - Present',
-            tools: ['Adobe Illustrator', 'InDesign', 'Print Production', 'Event Guides'],
+            tools: ['Adobe Illustrator', 'InDesign', 'Print Production'],
             url: '#',
             img: 'assets/totebag.jpg',
-            overview: 'Designed high-fidelity brochures, custom tote bags, and visitor leaflets for one of the largest automotive trade fairs.',
-            problem: 'Required high-contrast print layouts that represent automotive logistics cleanly and stand out in a heavily crowded exhibition hall.',
-            solution: 'Developed unified branding materials focusing on clean linear grids, bold monochromatic base layouts, and vibrant orange highlighting accents.',
-            results: 'Produced over 10,000 prints, boosting brand recognition and catalog engagement at the trade show.'
+            overview: 'Brochures, custom tote bags, and visitor leaflets for one of the largest automotive trade fairs.',
+            problem: 'Required high-contrast print layouts that represent automotive logistics cleanly.',
+            solution: 'Developed unified branding materials focusing on clean linear grids and vibrant accents.',
+            results: 'Produced over 10,000 prints, boosting brand recognition and catalog engagement.'
         }
     };
 
     if (projectCards && projectModal && closeProjectModalBtn && projectModalContent) {
         projectCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Prevent modal opening if clicking inside interactive widget controls
-                if (e.target.closest('canvas, button, .swatch-chip, .variant-chip, .sticky-note, .ruler-card-body')) {
+                // Ignore clicks inside interactive widget controls (canvas, swatches, chips, sticky task inputs)
+                if (e.target.closest('canvas, button, .swatch-chip, .variant-chip, .sticky-note, .ruler-card-body, .chalk-color-dot, .font-chip')) {
                     return;
                 }
 
                 const projectId = card.getAttribute('data-project-id');
                 const project = PROJECTS_DATA[projectId];
-
                 if (!project) return;
 
-                // Play portal transition chime (reusing project's audio context player)
-                if (typeof playSuccessSound === 'function') {
-                    playSuccessSound();
-                } else if (typeof playChimeSound === 'function') {
-                    playChimeSound();
-                }
+                if (typeof playSuccessSound === 'function') playSuccessSound();
 
-                // Format tools HTML
                 const toolsHTML = project.tools.map(tool => `<span class="project-modal-tool-tag">${tool}</span>`).join('');
 
-                // Populate modal content
                 projectModalContent.innerHTML = `
                     <div class="project-modal-grid">
-                        <!-- Left: Scrollable Mockup Frame -->
                         <div class="project-modal-gallery">
                             <div class="project-gallery-header">
-                                <div class="project-gallery-dots">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
+                                <div class="project-gallery-dots"><span></span><span></span><span></span></div>
                                 <div class="project-gallery-url">${project.url}</div>
                             </div>
                             <div class="project-gallery-scroll-container" id="modalScrollContainer">
-                                <div class="scroll-hint-overlay" id="scrollHint">
-                                    <i class="fa-solid fa-angles-down"></i>
-                                    <span>SCROLL TO EXPLORE PAGE</span>
+                                <img src="${project.img}" alt="${project.title} Full Showcase" id="modalMockupImg">
+                                <div class="scroll-hint-pill" id="scrollHint">
+                                    <i class="fa-solid fa-arrow-down"></i> SCROLL FOR FULL CASE STUDY
                                 </div>
-                                <img src="${project.img}" alt="${project.title} Preview">
                             </div>
                         </div>
 
-                        <!-- Right: Case Study Info -->
                         <div class="project-modal-details">
-                            <span class="project-modal-category">${project.category}</span>
-                            <h3 class="project-modal-title">${project.title}</h3>
-
-                            <div class="project-modal-meta-grid">
-                                <div class="meta-item">
-                                    <span class="meta-label">Client</span>
-                                    <span class="meta-value">${project.client}</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Role</span>
-                                    <span class="meta-value">${project.role}</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Timeline</span>
-                                    <span class="meta-value">${project.duration}</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Live Link</span>
-                                    <span class="meta-value">${project.url !== '#' ? `<a href="${project.url}" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">Visit Site <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i></a>` : 'Offline Prototype'}</span>
-                                </div>
+                            <div class="project-modal-meta">
+                                <span class="project-modal-cat">${project.category}</span>
+                                <span class="project-modal-role"><i class="fa-solid fa-user-tag"></i> ${project.role}</span>
                             </div>
 
-                            <div class="project-modal-section">
-                                <h4><i class="fa-solid fa-circle-info"></i> Project Overview</h4>
-                                <p>${project.overview}</p>
-                            </div>
+                            <h2 class="project-modal-title">${project.title}</h2>
+                            <p class="project-modal-overview">${project.overview}</p>
 
                             <div class="project-modal-section">
-                                <h4><i class="fa-solid fa-triangle-exclamation"></i> The Challenge</h4>
+                                <h4><i class="fa-solid fa-circle-exclamation"></i> The Challenge</h4>
                                 <p>${project.problem}</p>
                             </div>
 
@@ -721,15 +659,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
 
                             <div class="project-modal-section">
-                                <h4><i class="fa-solid fa-chart-line"></i> Key Outcome & Results</h4>
+                                <h4><i class="fa-solid fa-chart-line"></i> Key Outcome</h4>
                                 <p>${project.results}</p>
                             </div>
 
                             <div class="project-modal-section">
                                 <h4><i class="fa-solid fa-screwdriver-wrench"></i> Stack & Tools</h4>
-                                <div class="project-modal-tools-tags">
-                                    ${toolsHTML}
-                                </div>
+                                <div class="project-modal-tools-tags">${toolsHTML}</div>
                             </div>
 
                             <div class="project-modal-actions">
@@ -752,74 +688,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // Show modal
-                projectModal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Lock main scroll
-
-                // Setup scroll hint fadeout
-                const scrollContainer = document.getElementById('modalScrollContainer');
-                const scrollHint = document.getElementById('scrollHint');
-
-                if (scrollContainer && scrollHint) {
-                    scrollContainer.addEventListener('scroll', () => {
-                        if (scrollContainer.scrollTop > 30) {
-                            scrollHint.classList.add('hidden');
-                        } else {
-                            scrollHint.classList.remove('hidden');
-                        }
+                // Add lightbox zoom on mockup image
+                const modalMockupImg = document.getElementById('modalMockupImg');
+                if (modalMockupImg) {
+                    modalMockupImg.style.cursor = 'zoom-in';
+                    modalMockupImg.addEventListener('click', () => {
+                        openLightbox(modalMockupImg.src, project.title);
                     });
                 }
+
+                projectModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
         });
 
         const closeProjectModal = () => {
             projectModal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restore scroll
+            document.body.style.overflow = 'auto';
         };
 
         closeProjectModalBtn.addEventListener('click', closeProjectModal);
         projectModal.addEventListener('click', (e) => {
-            if (e.target === projectModal) {
-                closeProjectModal();
-            }
+            if (e.target === projectModal) closeProjectModal();
         });
-
-        // Close on ESC key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && projectModal.classList.contains('active')) {
-                closeProjectModal();
-            }
+            if (e.key === 'Escape' && projectModal.classList.contains('active')) closeProjectModal();
         });
     }
 
-    // 13. PLAYFUL DESIGNER WIDGET INTERACTION SCRIPTS
+    // 13. WIDGET INTERACTION SCRIPTS
 
-    // (A) Chalkboard Drawing Canvas Logic
+    // Chalkboard Canvas Sketcher
     const chalkboardCanvas = document.getElementById('chalkboardCanvas');
     const clearChalkBtn = document.getElementById('clearChalkBtn');
+    let currentChalkColor = '#ffffff';
 
     if (chalkboardCanvas) {
         const ctx = chalkboardCanvas.getContext('2d');
         let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
+        let lastX = 0, lastY = 0;
 
         const drawInitialChalkDoodle = () => {
             ctx.clearRect(0, 0, chalkboardCanvas.width, chalkboardCanvas.height);
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
             ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-
-            // Draw a wireframe box & star on blackboard
-            ctx.beginPath();
-            ctx.rect(20, 20, 160, 90);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.arc(280, 65, 25, 0, Math.PI * 2);
-            ctx.stroke();
-
+            ctx.strokeRect(20, 20, 160, 90);
+            ctx.beginPath(); ctx.arc(280, 65, 25, 0, Math.PI * 2); ctx.stroke();
             ctx.font = '13px sans-serif';
             ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
             ctx.fillText('⚡ UX WIREFRAME BOARD', 25, 140);
@@ -831,45 +746,36 @@ document.addEventListener('DOMContentLoaded', () => {
             chalkboardCanvas.height = rect.height;
             drawInitialChalkDoodle();
         };
-
         setTimeout(resizeCanvas, 300);
 
         const getPos = (e) => {
             const rect = chalkboardCanvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
+            return { x: clientX - rect.left, y: clientY - rect.top };
         };
 
         const startDrawing = (e) => {
-            e.stopPropagation(); // Stop parent modal trigger when drawing
+            e.stopPropagation();
             isDrawing = true;
             const pos = getPos(e);
-            lastX = pos.x;
-            lastY = pos.y;
+            lastX = pos.x; lastY = pos.y;
         };
 
         const draw = (e) => {
             if (!isDrawing) return;
             e.stopPropagation();
             const pos = getPos(e);
-
-            ctx.strokeStyle = '#ffffff';
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.strokeStyle = currentChalkColor;
+            ctx.shadowColor = currentChalkColor;
             ctx.shadowBlur = 4;
             ctx.lineWidth = Math.random() * 2 + 2;
             ctx.lineCap = 'round';
-
             ctx.beginPath();
             ctx.moveTo(lastX, lastY);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
-
-            lastX = pos.x;
-            lastY = pos.y;
+            lastX = pos.x; lastY = pos.y;
         };
 
         const stopDrawing = (e) => {
@@ -890,183 +796,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (clearChalkBtn) {
             clearChalkBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent opening modal
+                e.stopPropagation();
                 drawInitialChalkDoodle();
-                if (typeof playTone === 'function') playTone(400, 'sine', 0.08);
+                playTone(400, 'sine', 0.08);
+                showToast('Chalkboard Cleared', 'fa-eraser');
             });
         }
     }
 
-    // (B) Color Swatch Lab - Copy Hex Code
-    const swatchChips = document.querySelectorAll('.swatch-chip');
-    swatchChips.forEach(chip => {
-        chip.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent modal opening
-            const hex = chip.getAttribute('data-hex');
-            if (hex) {
-                navigator.clipboard.writeText(hex).then(() => {
-                    const originalText = chip.querySelector('.swatch-hex').innerText;
-                    chip.querySelector('.swatch-hex').innerText = 'COPIED!';
-                    if (typeof playSuccessSound === 'function') playSuccessSound();
-                    setTimeout(() => {
-                        chip.querySelector('.swatch-hex').innerText = originalText;
-                    }, 1200);
-                }).catch(() => {});
-            }
-        });
-    });
-
-    // (C) Cyber Matrix Scramble
-    const scrambleTitle = document.getElementById('crmScrambleTitle');
-    const scrambleDesc = document.getElementById('crmScrambleDesc');
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
-
-    const triggerScramble = (el) => {
-        if (!el) return;
-        const originalText = el.innerText;
-        let iteration = 0;
-        const interval = setInterval(() => {
-            el.innerText = originalText.split('').map((char, index) => {
-                if (index < iteration) return originalText[index];
-                return chars[Math.floor(Math.random() * chars.length)];
-            }).join('');
-            
-            if (iteration >= originalText.length) {
-                clearInterval(interval);
-            }
-            iteration += 1 / 2;
-        }, 30);
-    };
-
-    const matrixCard = document.querySelector('.card-matrix');
-    if (matrixCard) {
-        matrixCard.addEventListener('mouseenter', () => {
-            triggerScramble(scrambleTitle);
-        });
-    }
-
-    // (D) Figma Variant Switcher Logic
-    const variantChips = document.querySelectorAll('.variant-chip');
-    const figmaDemoBtn = document.getElementById('figmaDemoBtn');
-    const variantStateLabel = document.getElementById('variantStateLabel');
-
-    if (variantChips && figmaDemoBtn) {
-        variantChips.forEach(chip => {
-            chip.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent modal opening
-                variantChips.forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-
-                const state = chip.getAttribute('data-state');
-                figmaDemoBtn.className = `figma-demo-btn state-${state}`;
-                if (variantStateLabel) {
-                    variantStateLabel.innerText = `Active: ${state.charAt(0).toUpperCase() + state.slice(1)}`;
-                }
-                if (typeof playClickSound === 'function') playClickSound();
-            });
-        });
-    }
-
-    // (E) Sticky Sprint Kanban Notes
-    const stickyNotes = document.querySelectorAll('.sticky-note');
-    stickyNotes.forEach(note => {
-        note.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent modal opening
-            note.classList.toggle('completed');
-            const check = note.querySelector('.sticky-check');
-            if (check) {
-                check.innerText = note.classList.contains('completed') ? '✓' : '○';
-            }
-            if (typeof playClickSound === 'function') playClickSound();
-        });
-    });
-
-    // (F) Pixel Spec Ruler Crosshair Coordinates
-    const rulerBody = document.getElementById('rulerBody');
-    const rulerH = document.getElementById('rulerH');
-    const rulerV = document.getElementById('rulerV');
-    const rulerCoords = document.getElementById('rulerCoords');
-
-    if (rulerBody && rulerH && rulerV && rulerCoords) {
-        rulerBody.addEventListener('mousemove', (e) => {
-            const rect = rulerBody.getBoundingClientRect();
-            const x = Math.round(e.clientX - rect.left);
-            const y = Math.round(e.clientY - rect.top);
-
-            rulerH.style.top = `${y}px`;
-            rulerV.style.left = `${x}px`;
-            rulerCoords.innerText = `X: ${x}px | Y: ${y}px`;
-        });
-    }
-
-    // 14. PRO DESIGNER HELPER & INTERACTION SYSTEMS
-
-    // Toast Notification Manager
-    window.showToast = (message, icon = 'fa-circle-check') => {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        const toast = document.createElement('div');
-        toast.className = 'toast-message';
-        toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
-        container.appendChild(toast);
-        setTimeout(() => {
-            toast.style.animation = 'toastIn 0.3s reverse ease-in forwards';
-            setTimeout(() => toast.remove(), 300);
-        }, 2400);
-    };
-
-    // Lightbox Image Viewer Modal Manager
-    window.openLightbox = (imgSrc, caption = '') => {
-        const lightbox = document.getElementById('lightboxModal');
-        const lightboxImg = document.getElementById('lightboxImg');
-        const lightboxCaption = document.getElementById('lightboxCaption');
-        if (lightbox && lightboxImg) {
-            lightboxImg.src = imgSrc;
-            if (lightboxCaption) lightboxCaption.innerText = caption || 'High-Resolution Design View';
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            if (typeof playChimeSound === 'function') playChimeSound();
-        }
-    };
-
-    const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
-    const lightboxModal = document.getElementById('lightboxModal');
-    if (lightboxCloseBtn && lightboxModal) {
-        const closeLightbox = () => {
-            lightboxModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        };
-        lightboxCloseBtn.addEventListener('click', closeLightbox);
-        lightboxModal.addEventListener('click', (e) => {
-            if (e.target === lightboxModal) closeLightbox();
-        });
-    }
-
-    // Hero Floating Cards Lightbox Trigger
-    const floatingHeroCards = document.querySelectorAll('.floating-card');
-    floatingHeroCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const img = card.querySelector('img');
-            const tag = card.querySelector('.card-tag, .card-caption');
-            if (img) {
-                openLightbox(img.src, tag ? tag.innerText : 'Hero Design Feature');
-            }
-        });
-    });
-
-    // Glass Cursor Click Ripple Effect
-    document.addEventListener('click', (e) => {
-        const ripple = document.createElement('div');
-        ripple.className = 'cursor-click-ripple';
-        ripple.style.left = `${e.clientX}px`;
-        ripple.style.top = `${e.clientY}px`;
-        document.body.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 500);
-    });
-
-    // Chalkboard Palette & Templates
-    let currentChalkColor = '#ffffff';
     const chalkColorDots = document.querySelectorAll('.chalk-color-dot');
     chalkColorDots.forEach(dot => {
         dot.addEventListener('click', (e) => {
@@ -1074,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chalkColorDots.forEach(d => d.classList.remove('active'));
             dot.classList.add('active');
             currentChalkColor = dot.getAttribute('data-color') || '#ffffff';
-            showToast(`Chalk Color set to ${currentChalkColor}`, 'fa-pen');
+            showToast(`Chalk Color: ${currentChalkColor}`, 'fa-pen');
         });
     });
 
@@ -1099,11 +836,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     ctx.beginPath(); ctx.moveTo(100, 40); ctx.lineTo(140, 40); ctx.stroke();
                 }
             }
-            showToast(`Wireframe Template: ${btn.innerText}`, 'fa-layer-group');
+            showToast(`Template: ${btn.innerText}`, 'fa-layer-group');
         });
     });
 
-    // Swatch Lab Format Switcher
+    // Color Swatches
+    const swatchChips = document.querySelectorAll('.swatch-chip');
+    swatchChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const hex = chip.getAttribute('data-hex');
+            if (hex) {
+                navigator.clipboard.writeText(hex).then(() => {
+                    const originalText = chip.querySelector('.swatch-hex').innerText;
+                    chip.querySelector('.swatch-hex').innerText = 'COPIED!';
+                    playSuccessSound();
+                    showToast(`Copied ${hex} to clipboard!`, 'fa-copy');
+                    setTimeout(() => { chip.querySelector('.swatch-hex').innerText = originalText; }, 1200);
+                }).catch(() => {});
+            }
+        });
+    });
+
     let currentSwatchFmt = 'HEX';
     const swatchFmtBtn = document.getElementById('swatchFmtBtn');
     if (swatchFmtBtn) {
@@ -1123,7 +877,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Matrix Telemetry Re-scramble
+    // Cyber Matrix Scramble
+    const scrambleTitle = document.getElementById('crmScrambleTitle');
+    const scrambleDesc = document.getElementById('crmScrambleDesc');
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
+
+    const triggerScramble = (el) => {
+        if (!el) return;
+        const originalText = el.innerText;
+        let iteration = 0;
+        const interval = setInterval(() => {
+            el.innerText = originalText.split('').map((char, index) => {
+                if (index < iteration) return originalText[index];
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+            if (iteration >= originalText.length) clearInterval(interval);
+            iteration += 1 / 2;
+        }, 30);
+    };
+
+    const matrixCard = document.querySelector('.card-matrix');
+    if (matrixCard) {
+        matrixCard.addEventListener('mouseenter', () => { triggerScramble(scrambleTitle); });
+    }
+
     const reScrambleBtn = document.getElementById('reScrambleBtn');
     if (reScrambleBtn) {
         reScrambleBtn.addEventListener('click', (e) => {
@@ -1136,7 +913,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Figma Spec Code Switcher
+    // Figma Variant Switcher
+    const variantChips = document.querySelectorAll('.variant-chip');
+    const figmaDemoBtn = document.getElementById('figmaDemoBtn');
+    const variantStateLabel = document.getElementById('variantStateLabel');
     const figmaSpecCode = document.getElementById('figmaSpecCode');
     const specMap = {
         'default': 'padding: 10px 20px | radius: 10px | bg: #4F46E5',
@@ -1144,19 +924,26 @@ document.addEventListener('DOMContentLoaded', () => {
         'active': 'padding: 10px 20px | radius: 10px | bg: #00F0FF | scale: 0.95',
         'disabled': 'padding: 10px 20px | radius: 10px | bg: #3F3F46 | cursor: not-allowed'
     };
-    if (variantChips && figmaSpecCode) {
+
+    if (variantChips && figmaDemoBtn) {
         variantChips.forEach(chip => {
             chip.addEventListener('click', (e) => {
                 e.stopPropagation();
+                variantChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
                 const state = chip.getAttribute('data-state');
-                if (specMap[state]) figmaSpecCode.innerText = specMap[state];
+                figmaDemoBtn.className = `figma-demo-btn state-${state}`;
+                if (variantStateLabel) variantStateLabel.innerText = `Active: ${state.charAt(0).toUpperCase() + state.slice(1)}`;
+                if (figmaSpecCode && specMap[state]) figmaSpecCode.innerText = specMap[state];
+                playClickSound();
                 showToast(`Figma Variant: ${state.toUpperCase()}`, 'fa-brands fa-figma');
             });
         });
     }
 
-    // Add Dynamic Sticky Task
-    const addStickyBtn = document.getElementById('addStickyBtn');
+    // Sticky Sprint Kanban Notes
+    const stickyNotes = document.querySelectorAll('.sticky-note');
     const stickyStack = document.getElementById('stickyStack');
     const stickyProgress = document.getElementById('stickyProgress');
 
@@ -1167,6 +954,18 @@ document.addEventListener('DOMContentLoaded', () => {
         stickyProgress.innerText = `${completed.length} / ${all.length} Completed`;
     };
 
+    stickyNotes.forEach(note => {
+        note.addEventListener('click', (e) => {
+            e.stopPropagation();
+            note.classList.toggle('completed');
+            const check = note.querySelector('.sticky-check');
+            if (check) check.innerText = note.classList.contains('completed') ? '✓' : '○';
+            updateStickyProgress();
+            playClickSound();
+        });
+    });
+
+    const addStickyBtn = document.getElementById('addStickyBtn');
     if (addStickyBtn && stickyStack) {
         addStickyBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1182,12 +981,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     note.classList.toggle('completed');
                     note.querySelector('.sticky-check').innerText = note.classList.contains('completed') ? '✓' : '○';
                     updateStickyProgress();
-                    if (typeof playClickSound === 'function') playClickSound();
+                    playClickSound();
                 });
                 stickyStack.appendChild(note);
                 updateStickyProgress();
                 showToast(`Task Added: ${taskText}`, 'fa-note-sticky');
             }
+        });
+    }
+
+    // Pixel Spec Ruler Crosshair
+    const rulerBody = document.getElementById('rulerBody');
+    const rulerH = document.getElementById('rulerH');
+    const rulerV = document.getElementById('rulerV');
+    const rulerCoords = document.getElementById('rulerCoords');
+
+    if (rulerBody && rulerH && rulerV && rulerCoords) {
+        rulerBody.addEventListener('mousemove', (e) => {
+            const rect = rulerBody.getBoundingClientRect();
+            const x = Math.round(e.clientX - rect.left);
+            const y = Math.round(e.clientY - rect.top);
+            rulerH.style.top = `${y}px`;
+            rulerV.style.left = `${x}px`;
+            rulerCoords.innerText = `X: ${x}px | Y: ${y}px`;
         });
     }
 
@@ -1214,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isMarqueeFast = !isMarqueeFast;
             marqueeContent.style.animationDuration = isMarqueeFast ? '5s' : '12s';
             marqueeSpeedBtn.innerText = isMarqueeFast ? '⚡ 3x' : '⚡ 1x';
-            showToast(isMarqueeFast ? 'Marquee Speed: 3x' : 'Marquee Speed: 1x', 'fa-bolt');
+            showToast(isMarqueeFast ? 'Speed: 3x' : 'Speed: 1x', 'fa-bolt');
         });
     }
 
@@ -1226,11 +1042,11 @@ document.addEventListener('DOMContentLoaded', () => {
             chip.classList.add('active');
             const font = chip.getAttribute('data-font');
             if (marqueeContent) marqueeContent.style.fontFamily = font;
-            showToast(`Typography set to ${font}`, 'fa-font');
+            showToast(`Font: ${font}`, 'fa-font');
         });
     });
 
-    // Holographic Glitch 3D Tilt & Glitch Trigger
+    // Holographic Glitch 3D Tilt
     const glitchCard = document.getElementById('glitchCard');
     const glitchFoil = document.getElementById('glitchFoil');
     const triggerGlitchBtn = document.getElementById('triggerGlitchBtn');
@@ -1257,4 +1073,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-

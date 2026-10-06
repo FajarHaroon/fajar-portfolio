@@ -73,7 +73,6 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    transform: translate(-50%, -50%);
     pointer-events: none !important;
     z-index: 999999;
     opacity: 1 !important;
@@ -89,7 +88,6 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    transform: translate(-50%, -50%);
     pointer-events: none !important;
     z-index: 999998;
     opacity: 1 !important;
